@@ -67,7 +67,7 @@ Documentation = "https://blackpearl006.github.io/NeuroDataHub/"
 neurodatahub = "neurodatahub.cli:main"
 
 [tool.setuptools]
-packages = ["neurodatahub"]
+packages = {find = {}}
 include-package-data = true
 
 [tool.setuptools.package-data]
