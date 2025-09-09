@@ -201,9 +201,9 @@
       "openneuro_id": "ds003837"
     },
     "RBPL1": {
-      "name": "Reproducible Brain Phantoms Library 1",
+      "name": "Reading Brain Project Library 1",
       "category": "openneuro",
-      "description": "Brain phantom dataset for reproducibility studies",
+      "description": "Reading Brain Project for reproducibility studies",
       "size": "~30GB",
       "auth_required": false,
       "download_method": "aws_s3",
@@ -212,9 +212,9 @@
       "openneuro_id": "ds003416"
     },
     "RBPL2": {
-      "name": "Reproducible Brain Phantoms Library 2",
+      "name": "Reading Brain Project Library 2",
       "category": "openneuro",
-      "description": "Brain phantom dataset for reproducibility studies",
+      "description": "Reading Brain Project for reproducibility studies",
       "size": "~35GB",
       "auth_required": false,
       "download_method": "aws_s3",

@@ -68,24 +68,24 @@ class IDALONIWorkflow:
     
     def _display_checklist(self) -> bool:
         """Display and walk through the IDA-LONI authentication checklist."""
-        checklist_title = f"🔐 IDA-LONI Authentication Required for {self.dataset_name}"
+        checklist_title = f"[AUTH] IDA-LONI Authentication Required for {self.dataset_name}"
         
         checklist_content = f"""
 [bold cyan]Please complete these steps before proceeding:[/bold cyan]
 
-[bold]1. ✓ Do you have an IDA-LONI account registered?[/bold]
+[bold]1. [✓] Do you have an IDA-LONI account registered?[/bold]
    Website: {self.ida_url}
    
-[bold]2. ✓ Have you requested access through Data Use Agreement (DUA)?[/bold]
+[bold]2. [✓] Have you requested access through Data Use Agreement (DUA)?[/bold]
    Each dataset requires separate DUA approval
    
-[bold]3. ✓ Have you created an image collection for this dataset?[/bold]
+[bold]3. [✓] Have you created an image collection for this dataset?[/bold]
    Use the IDA interface to create a collection with your desired images
    
-[bold]4. ✓ Have you obtained the download link via Advanced Downloader?[/bold]
-   Navigate to: Downloads → Advanced Download → Get download link
+[bold]4. [✓] Have you obtained the download link via Advanced Downloader?[/bold]
+   Navigate to: Downloads -> Advanced Download -> Get download link
    
-[bold]5. ✓ Are you downloading from the same IP where you got the link?[/bold]
+[bold]5. [✓] Are you downloading from the same IP where you got the link?[/bold]
    [yellow](Important: IDA-LONI download links are IP-restricted)[/yellow]
 
 [dim]This workflow will guide you through each step...[/dim]
@@ -120,14 +120,14 @@ class IDALONIWorkflow:
         display_info("Step 1: IDA-LONI Account")
         
         if get_confirmation("Do you have an IDA-LONI account registered?"):
-            display_success("✓ IDA-LONI account confirmed")
+            display_success("[✓] IDA-LONI account confirmed")
             return True
         
         display_info(f"Please register at: {self.ida_url}")
         display_info("Account registration is free but may require institutional affiliation verification.")
         
         if get_confirmation("Have you registered and can log in to IDA-LONI?"):
-            display_success("✓ IDA-LONI account confirmed")
+            display_success("[✓] IDA-LONI account confirmed")
             return True
         
         display_error("IDA-LONI account is required to proceed")
@@ -140,23 +140,23 @@ class IDALONIWorkflow:
         dua_info = f"""
 Each dataset on IDA-LONI requires separate DUA approval:
 
-• {self.dataset_name} requires specific approval
-• DUA approval can take several days to weeks
-• You must agree to data usage terms and restrictions
-• Some datasets require additional documentation
+* {self.dataset_name} requires specific approval
+* DUA approval can take several days to weeks
+* You must agree to data usage terms and restrictions
+* Some datasets require additional documentation
 """
         
         console.print(Panel(dua_info, title="DUA Information", border_style="blue"))
         
         if get_confirmation(f"Have you requested and received DUA approval for {self.dataset_name}?"):
-            display_success("✓ DUA approval confirmed")
+            display_success("[✓] DUA approval confirmed")
             return True
         
         display_info("Please submit DUA request through your IDA-LONI account")
         display_info("Check your email for approval notifications")
         
         if get_confirmation("Have you now received DUA approval?"):
-            display_success("✓ DUA approval confirmed")
+            display_success("[✓] DUA approval confirmed")
             return True
         
         display_error("DUA approval is required to access this dataset")
@@ -179,13 +179,13 @@ You need to create an image collection in IDA-LONI:
         console.print(Panel(collection_info, title="Collection Setup", border_style="green"))
         
         if get_confirmation("Have you created an image collection for this dataset?"):
-            display_success("✓ Image collection confirmed")
+            display_success("[✓] Image collection confirmed")
             return True
         
         display_info("Please log in to IDA-LONI and create your image collection")
         
         if get_confirmation("Have you now created an image collection?"):
-            display_success("✓ Image collection confirmed")
+            display_success("[✓] Image collection confirmed")
             return True
         
         display_error("Image collection is required to generate download links")
@@ -198,7 +198,7 @@ You need to create an image collection in IDA-LONI:
         downloader_info = """
 Generate download link using IDA-LONI Advanced Downloader:
 
-1. In IDA-LONI, go to: Downloads → Advanced Download
+1. In IDA-LONI, go to: Downloads -> Advanced Download
 2. Select your created image collection
 3. Choose download format (usually DICOM or NIfTI)
 4. Click "Get Download Link"
@@ -210,13 +210,13 @@ Generate download link using IDA-LONI Advanced Downloader:
         console.print(Panel(downloader_info, title="Advanced Downloader", border_style="cyan"))
         
         if get_confirmation("Have you generated a download link using Advanced Downloader?"):
-            display_success("✓ Download link generation confirmed")
+            display_success("[✓] Download link generation confirmed")
             return True
         
         display_info("Please use the Advanced Downloader to generate your link")
         
         if get_confirmation("Have you now generated a download link?"):
-            display_success("✓ Download link generation confirmed")
+            display_success("[✓] Download link generation confirmed")
             return True
         
         display_error("Download link is required to proceed")
@@ -229,10 +229,10 @@ Generate download link using IDA-LONI Advanced Downloader:
         ip_info = """
 [yellow]Critical: IDA-LONI download links are IP-restricted![/yellow]
 
-• You must download from the same IP address where you generated the link
-• If using a different machine/network, the download will fail
-• VPNs may cause IP address mismatches
-• University networks may have dynamic IPs
+* You must download from the same IP address where you generated the link
+* If using a different machine/network, the download will fail
+* VPNs may cause IP address mismatches
+* University networks may have dynamic IPs
 
 [dim]If downloading on a different machine, generate the link on that machine.[/dim]
 """
@@ -240,13 +240,13 @@ Generate download link using IDA-LONI Advanced Downloader:
         console.print(Panel(ip_info, title="IP Address Restriction", border_style="red"))
         
         if get_confirmation("Are you downloading from the same IP where you generated the link?"):
-            display_success("✓ IP address consistency confirmed")
+            display_success("[✓] IP address consistency confirmed")
             return True
         
         display_warning("IP address mismatch may cause download to fail")
         
         if get_confirmation("Do you want to proceed anyway? (download may fail)"):
-            display_warning("⚠ Proceeding with potential IP address mismatch")
+            display_warning("[WARNING] Proceeding with potential IP address mismatch")
             return True
         
         display_info("Please generate the download link from this machine/network")
@@ -323,7 +323,7 @@ Paste your download URL"""
     def _display_completion_message(self):
         """Display completion message with next steps."""
         completion_msg = f"""
-[bold green]✓ Download completed successfully![/bold green]
+[bold green][✓] Download completed successfully![/bold green]
 
 [bold]Next steps:[/bold]
 1. Verify downloaded files in: {self.target_path}
@@ -332,10 +332,10 @@ Paste your download URL"""
 4. Review data usage terms from your DUA
 
 [bold]Data Usage Reminder:[/bold]
-• Use data only as approved in your DUA
-• Cite the dataset properly in publications
-• Follow sharing restrictions
-• Report any data issues to IDA-LONI
+* Use data only as approved in your DUA
+* Cite the dataset properly in publications
+* Follow sharing restrictions
+* Report any data issues to IDA-LONI
 
 [dim]Thank you for using NeuroDataHub CLI![/dim]
 """
@@ -345,15 +345,15 @@ Paste your download URL"""
     def _display_failure_message(self):
         """Display failure message with troubleshooting tips."""
         failure_msg = f"""
-[bold red]✗ Download failed[/bold red]
+[bold red][✗] Download failed[/bold red]
 
 [bold]Common issues and solutions:[/bold]
 
-• [yellow]IP address mismatch:[/yellow] Generate download link from this machine
-• [yellow]Expired link:[/yellow] Links expire after 24-48 hours, generate a new one
-• [yellow]Network issues:[/yellow] Check internet connection and retry
-• [yellow]DUA expired:[/yellow] Verify your DUA is still active
-• [yellow]Collection issues:[/yellow] Ensure your image collection is valid
+* [yellow]IP address mismatch:[/yellow] Generate download link from this machine
+* [yellow]Expired link:[/yellow] Links expire after 24-48 hours, generate a new one
+* [yellow]Network issues:[/yellow] Check internet connection and retry
+* [yellow]DUA expired:[/yellow] Verify your DUA is still active
+* [yellow]Collection issues:[/yellow] Ensure your image collection is valid
 
 [bold]Troubleshooting:[/bold]
 1. Try generating a fresh download link

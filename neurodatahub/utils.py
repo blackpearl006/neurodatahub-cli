@@ -65,7 +65,7 @@ def display_dependency_status():
     }
     
     for dep, is_available in status.items():
-        status_text = "[green]✓ Available[/green]" if is_available else "[red]✗ Missing[/red]"
+        status_text = "[green][✓] Available[/green]" if is_available else "[red][✗] Missing[/red]"
         guide = installation_guides.get(dep, "See official documentation")
         table.add_row(dep, status_text, guide)
     
@@ -261,11 +261,11 @@ def display_welcome():
 [bold blue]NeuroDataHub CLI[/bold blue] - Download neuroimaging datasets with ease!
 
 This tool helps you download various neuroimaging datasets from different sources:
-• INDI datasets (no authentication required)
-• OpenNeuro datasets (no authentication required)  
-• Independent datasets (some require authentication)
-• ReproBrainChart datasets (requires git/datalad)
-• IDA-LONI datasets (requires interactive authentication)
+* INDI datasets (no authentication required)
+* OpenNeuro datasets (no authentication required)  
+* Independent datasets (some require authentication)
+* ReproBrainChart datasets (requires git/datalad)
+* IDA-LONI datasets (requires interactive authentication)
 
 Use [bold]neurodatahub --help[/bold] to see all available commands.
 Use [bold]neurodatahub check[/bold] to verify your system dependencies.
@@ -283,14 +283,14 @@ def display_error(message: str, suggestion: str = ""):
 
 def display_success(message: str):
     """Display a success message."""
-    console.print(f"[green]✓[/green] {message}")
+    console.print(f"[green][✓][/green] {message}")
 
 
 def display_info(message: str):
     """Display an info message."""
-    console.print(f"[blue]ℹ[/blue] {message}")
+    console.print(f"[blue][INFO][/blue] {message}")
 
 
 def display_warning(message: str):
     """Display a warning message."""
-    console.print(f"[yellow]⚠[/yellow] {message}")
+    console.print(f"[yellow][WARNING][/yellow] {message}")

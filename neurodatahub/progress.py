@@ -352,7 +352,7 @@ class ProgressTracker:
         downloads = self.list_downloads()
         
         if not downloads:
-            console.print("📊 No download history found")
+            console.print("[STATS] No download history found")
             return
         
         from rich.table import Table
@@ -419,7 +419,7 @@ class ProgressTracker:
         failed = len([d for d in downloads if d.is_failed])
         in_progress = len([d for d in downloads if d.status == "downloading"])
         
-        console.print(f"\n📈 Summary: {total_downloads} total, {completed} completed, "
+        console.print(f"\n[CHART] Summary: {total_downloads} total, {completed} completed, "
                      f"{failed} failed, {in_progress} in progress")
 
 
@@ -488,7 +488,7 @@ class RichProgressManager:
         """
         if dataset_id in self._tasks:
             task_id = self._tasks[dataset_id]
-            self.progress.update(task_id, description=f"✅ {dataset_id} completed")
+            self.progress.update(task_id, description=f"[✓] {dataset_id} completed")
     
     def fail_download(self, dataset_id: str, error: str):
         """Mark download as failed.
@@ -499,7 +499,7 @@ class RichProgressManager:
         """
         if dataset_id in self._tasks:
             task_id = self._tasks[dataset_id]
-            self.progress.update(task_id, description=f"❌ {dataset_id} failed: {error}")
+            self.progress.update(task_id, description=f"[✗] {dataset_id} failed: {error}")
 
 
 def calculate_checksum(file_path: Path, algorithm: str = "sha256") -> str:

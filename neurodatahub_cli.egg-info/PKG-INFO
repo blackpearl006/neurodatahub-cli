@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: neurodatahub-cli
-Version: 0.0.post4+dirty
+Version: 1.0.0
 Summary: A command-line interface for downloading neuroimaging datasets
 Author-email: NeuroDataHub Team <contact@neurodatahub.org>
 License: MIT
@@ -385,9 +385,9 @@ If you use NeuroDataHub CLI in your research, please cite:
 
 ```bibtex
 @software{neurodatahub_cli,
-  title={NeuroDataHub CLI: A Command-Line Interface for Neuroimaging Dataset Downloads},
-  author={NeuroDataHub Team},
-  year={2024},
+  title={NeuroDataHub},
+  author={Ninad Aithal},
+  year={2025},
   url={https://github.com/blackpearl006/neurodatahub-cli},
   version={0.1.0}
 }

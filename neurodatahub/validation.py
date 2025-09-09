@@ -288,19 +288,19 @@ class DatasetValidator:
         report_lines = []
         
         if self.errors:
-            report_lines.append("❌ ERRORS:")
+            report_lines.append("[✗] ERRORS:")
             for error in self.errors:
-                report_lines.append(f"  • {error}")
+                report_lines.append(f"  * {error}")
         
         if self.warnings:
             if report_lines:
                 report_lines.append("")
-            report_lines.append("⚠️ WARNINGS:")
+            report_lines.append("[WARNING] WARNINGS:")
             for warning in self.warnings:
-                report_lines.append(f"  • {warning}")
+                report_lines.append(f"  * {warning}")
         
         if not self.errors and not self.warnings:
-            report_lines.append("✅ Validation passed")
+            report_lines.append("[✓] Validation passed")
         
         return "\n".join(report_lines)
 
@@ -601,7 +601,7 @@ def display_validation_results(results: Dict, show_details: bool = True):
         results: Validation results from validate_dataset_structure
         show_details: Whether to show detailed information
     """
-    console.print(f"\n📂 Dataset Structure Validation: {results['path']}")
+    console.print(f"\n[FOLDER] Dataset Structure Validation: {results['path']}")
     
     # Summary table
     summary_table = Table(title="Summary")
@@ -631,13 +631,13 @@ def display_validation_results(results: Dict, show_details: bool = True):
         # Issues
         if results['issues']:
             console.print(Panel(
-                "\n".join([f"• {issue}" for issue in results['issues']]),
-                title="⚠️ Issues Found",
+                "\n".join([f"* {issue}" for issue in results['issues']]),
+                title="[WARNING] Issues Found",
                 border_style="red"
             ))
         else:
             console.print(Panel(
-                "✅ No issues found",
+                "[✓] No issues found",
                 title="Validation Status",
                 border_style="green"
             ))
