@@ -1,0 +1,439 @@
+{
+  "datasets": {
+    "HBN": {
+      "name": "Healthy Brain Network",
+      "category": "indi",
+      "description": "A landmark mental health study of 10,000 New York area children and adolescents",
+      "size": "~2TB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/HBN/MRI/ . --exclude \"*\" --include \"*/sub-*/anat/*\"",
+      "website": "https://healthybrainnetwork.org/",
+      "publication": "https://doi.org/10.1038/sdata.2017.181"
+    },
+    "CORR": {
+      "name": "CoRR - Consortium for Reliability and Reproducibility",
+      "category": "indi",
+      "description": "Test-retest reliability data from multiple sites",
+      "size": "~500GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/CORR/RawDataBIDS/ . --exclude \"*\" --include \"*/sub-*/ses-*/anat/*\"",
+      "website": "http://fcon_1000.projects.nitrc.org/indi/CoRR/html/index.html"
+    },
+    "FCON1000": {
+      "name": "1000 Functional Connectomes Project",
+      "category": "indi",
+      "description": "Large-scale resting-state fMRI dataset",
+      "size": "~1TB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/FCON1000/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/"
+    },
+    "ADHD200": {
+      "name": "ADHD-200 Competition",
+      "category": "indi",
+      "description": "ADHD diagnosis classification dataset",
+      "size": "~200GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/ADHD200/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/indi/adhd200/"
+    },
+    "BGSP": {
+      "name": "Beijing Growth and Stability Project",
+      "category": "indi",
+      "description": "Longitudinal developmental neuroimaging study",
+      "size": "~300GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/BGSP/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/"
+    },
+    "NKI": {
+      "name": "Nathan Kline Institute - Rockland Sample",
+      "category": "indi",
+      "description": "Lifespan neuroimaging dataset",
+      "size": "~800GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/RocklandSample/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/indi/pro/nki.html"
+    },
+    "SLIM": {
+      "name": "Southwest University Longitudinal Imaging Multimodal Brain Data",
+      "category": "indi",
+      "description": "Longitudinal multimodal brain imaging data",
+      "size": "~400GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/SLIM/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/"
+    },
+    "ATLAS": {
+      "name": "ATLAS.R - Adult Lifespan Connectome Project",
+      "category": "indi",
+      "description": "Adult lifespan connectome data",
+      "size": "~600GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/ATLAS/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/"
+    },
+    "DLBS": {
+      "name": "Dallas Lifespan Brain Study",
+      "category": "indi",
+      "description": "Lifespan brain development and aging study",
+      "size": "~350GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/DLBS/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/"
+    },
+    "MPI-LEMON": {
+      "name": "Leipzig Study for Mind-Body-Emotion Interactions",
+      "category": "indi",
+      "description": "Mind-body-emotion interactions in young and old adults",
+      "size": "~250GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/LEMON/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/"
+    },
+    "AOMIC_PIOP1": {
+      "name": "Amsterdam Open MRI Collection - PIOP1",
+      "category": "openneuro",
+      "description": "Population Imaging of Psychology dataset 1",
+      "size": "~180GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003097 . --exclude \"*\" --include \"sub-*/anat/*T1w*\"",
+      "website": "https://openneuro.org/datasets/ds003097",
+      "openneuro_id": "ds003097"
+    },
+    "AOMIC_PIOP2": {
+      "name": "Amsterdam Open MRI Collection - PIOP2",
+      "category": "openneuro",
+      "description": "Population Imaging of Psychology dataset 2",
+      "size": "~200GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003018 . --exclude \"*\" --include \"sub-*/anat/*T1w*\"",
+      "website": "https://openneuro.org/datasets/ds003018",
+      "openneuro_id": "ds003018"
+    },
+    "AOMIC_ID1000": {
+      "name": "Amsterdam Open MRI Collection - ID1000",
+      "category": "openneuro",
+      "description": "Individual Differences 1000 dataset",
+      "size": "~300GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003834 . --exclude \"*\" --include \"sub-*/anat/*T1w*\"",
+      "website": "https://openneuro.org/datasets/ds003834",
+      "openneuro_id": "ds003834"
+    },
+    "MPI": {
+      "name": "Max Planck Institute Leipzig Mind-Brain-Body",
+      "category": "openneuro",
+      "description": "Mind-brain-body dataset from MPI Leipzig",
+      "size": "~250GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003505 . --exclude \"*\" --include \"sub-*/anat/*T1w*\"",
+      "website": "https://openneuro.org/datasets/ds003505",
+      "openneuro_id": "ds003505"
+    },
+    "DENSE_F": {
+      "name": "Dense sampling of single subject - Female",
+      "category": "openneuro",
+      "description": "High-resolution single-subject dataset - female participant",
+      "size": "~50GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds002785 .",
+      "website": "https://openneuro.org/datasets/ds002785",
+      "openneuro_id": "ds002785"
+    },
+    "DENSE_M": {
+      "name": "Dense sampling of single subject - Male",
+      "category": "openneuro",
+      "description": "High-resolution single-subject dataset - male participant",
+      "size": "~50GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds002790 .",
+      "website": "https://openneuro.org/datasets/ds002790",
+      "openneuro_id": "ds002790"
+    },
+    "Pixar": {
+      "name": "Pixar movie watching dataset",
+      "category": "openneuro",
+      "description": "fMRI responses to Pixar movie clips",
+      "size": "~120GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003643 .",
+      "website": "https://openneuro.org/datasets/ds003643",
+      "openneuro_id": "ds003643"
+    },
+    "Lexical": {
+      "name": "Lexical decision task dataset",
+      "category": "openneuro",
+      "description": "fMRI during lexical decision tasks",
+      "size": "~80GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003474 .",
+      "website": "https://openneuro.org/datasets/ds003474",
+      "openneuro_id": "ds003474"
+    },
+    "NPC": {
+      "name": "Naturalistic Paradigm Consortium",
+      "category": "openneuro",
+      "description": "Naturalistic viewing paradigm dataset",
+      "size": "~200GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003837 .",
+      "website": "https://openneuro.org/datasets/ds003837",
+      "openneuro_id": "ds003837"
+    },
+    "RBPL1": {
+      "name": "Reproducible Brain Phantoms Library 1",
+      "category": "openneuro",
+      "description": "Brain phantom dataset for reproducibility studies",
+      "size": "~30GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003416 .",
+      "website": "https://openneuro.org/datasets/ds003416",
+      "openneuro_id": "ds003416"
+    },
+    "RBPL2": {
+      "name": "Reproducible Brain Phantoms Library 2",
+      "category": "openneuro",
+      "description": "Brain phantom dataset for reproducibility studies",
+      "size": "~35GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003417 .",
+      "website": "https://openneuro.org/datasets/ds003417",
+      "openneuro_id": "ds003417"
+    },
+    "IXI": {
+      "name": "Information eXtraction from Images",
+      "category": "independent",
+      "description": "Healthy brain MRI dataset from Imperial College London",
+      "size": "~12GB",
+      "auth_required": false,
+      "download_method": "aria2c",
+      "base_command": "aria2c -x 10 -j 10 -s 10 http://biomedic.doc.ic.ac.uk/brain-development/downloads/IXI/IXI-T1.tar",
+      "website": "http://brain-development.org/ixi-dataset/"
+    },
+    "OASIS1": {
+      "name": "Open Access Series of Imaging Studies 1",
+      "category": "independent",
+      "description": "Cross-sectional collection of 416 subjects aged 18 to 96",
+      "size": "~8GB",
+      "auth_required": false,
+      "download_method": "aria2c",
+      "base_command": "multiple_aria2c_downloads",
+      "website": "https://www.oasis-brains.org/"
+    },
+    "OASIS2": {
+      "name": "Open Access Series of Imaging Studies 2",
+      "category": "independent",
+      "description": "Longitudinal collection of 150 subjects aged 60 to 96",
+      "size": "~12GB",
+      "auth_required": false,
+      "download_method": "aria2c",
+      "base_command": "multiple_aria2c_downloads",
+      "website": "https://www.oasis-brains.org/"
+    },
+    "HCP_1200": {
+      "name": "Human Connectome Project - 1200 Subjects Release",
+      "category": "independent",
+      "description": "High-quality neuroimaging data from 1200 healthy young adults",
+      "size": "~15TB",
+      "auth_required": true,
+      "download_method": "aws_credentials",
+      "base_command": "aws s3 sync s3://hcp-openaccess/HCP_1200/ .",
+      "website": "https://www.humanconnectome.org/"
+    },
+    "CamCAN": {
+      "name": "Cambridge Centre for Ageing and Neuroscience",
+      "category": "independent",
+      "description": "Lifespan dataset with cognitive and neural measures",
+      "size": "~2TB",
+      "auth_required": true,
+      "download_method": "special",
+      "base_command": "special_camcan_procedure",
+      "website": "https://www.cam-can.org/"
+    },
+    "PNC": {
+      "name": "Philadelphia Neurodevelopmental Cohort",
+      "category": "rbc",
+      "description": "Large-scale neurodevelopmental study",
+      "size": "~800GB",
+      "auth_required": false,
+      "download_method": "datalad",
+      "base_command": "git clone https://github.com/ReproBrainChart/PNC_BIDS.git && datalad clone https://github.com/ReproBrainChart/PNC_BIDS.git -b complete-pass-0.1 && datalad get *",
+      "website": "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000607.v3.p2",
+      "repository": "https://github.com/ReproBrainChart/PNC_BIDS"
+    },
+    "BHRC": {
+      "name": "Brain Health Registry Cohort",
+      "category": "rbc",
+      "description": "Brain health and aging cohort",
+      "size": "~600GB",
+      "auth_required": false,
+      "download_method": "datalad",
+      "base_command": "git clone https://github.com/ReproBrainChart/BHRC_BIDS.git && datalad clone https://github.com/ReproBrainChart/BHRC_BIDS.git && datalad get *",
+      "website": "https://brainhealthregistry.org/",
+      "repository": "https://github.com/ReproBrainChart/BHRC_BIDS"
+    },
+    "CCNP": {
+      "name": "Chinese Color Nest Project",
+      "category": "rbc",
+      "description": "Chinese population neuroimaging dataset",
+      "size": "~400GB",
+      "auth_required": false,
+      "download_method": "datalad",
+      "base_command": "git clone https://github.com/ReproBrainChart/CCNP_BIDS.git && datalad clone https://github.com/ReproBrainChart/CCNP_BIDS.git && datalad get *",
+      "website": "http://ccnp.scidb.cn/",
+      "repository": "https://github.com/ReproBrainChart/CCNP_BIDS"
+    },
+    "ADNI": {
+      "name": "Alzheimer's Disease Neuroimaging Initiative",
+      "category": "ida",
+      "description": "Longitudinal study of Alzheimer's disease progression",
+      "size": "~5TB",
+      "auth_required": true,
+      "download_method": "ida_loni",
+      "base_command": "ida_interactive_flow",
+      "website": "https://adni.loni.usc.edu/",
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=ADNI"
+    },
+    "AIBL": {
+      "name": "Australian Imaging Biomarkers and Lifestyle",
+      "category": "ida",
+      "description": "Australian Alzheimer's disease study",
+      "size": "~2TB",
+      "auth_required": true,
+      "download_method": "ida_loni",
+      "base_command": "ida_interactive_flow",
+      "website": "https://aibl.csiro.au/",
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=AIBL"
+    },
+    "MCSA": {
+      "name": "Mayo Clinic Study of Aging",
+      "category": "ida",
+      "description": "Longitudinal study of cognitive aging",
+      "size": "~1.5TB",
+      "auth_required": true,
+      "download_method": "ida_loni",
+      "base_command": "ida_interactive_flow",
+      "website": "https://www.mayo.edu/research/departments-divisions/epidemiology/research/aging-dementia",
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=MCSA"
+    },
+    "PPMI": {
+      "name": "Parkinson's Progression Markers Initiative",
+      "category": "ida",
+      "description": "Longitudinal Parkinson's disease study",
+      "size": "~3TB",
+      "auth_required": true,
+      "download_method": "ida_loni",
+      "base_command": "ida_interactive_flow",
+      "website": "https://www.ppmi-info.org/",
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=PPMI"
+    },
+    "ICBM": {
+      "name": "International Consortium for Brain Mapping",
+      "category": "ida",
+      "description": "Brain mapping and atlas construction",
+      "size": "~800GB",
+      "auth_required": true,
+      "download_method": "ida_loni",
+      "base_command": "ida_interactive_flow",
+      "website": "http://www.loni.usc.edu/ICBM/",
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=ICBM"
+    },
+    "LASI": {
+      "name": "Longitudinal Aging Study in India",
+      "category": "ida",
+      "description": "Indian aging and health study",
+      "size": "~500GB",
+      "auth_required": true,
+      "download_method": "ida_loni",
+      "base_command": "ida_interactive_flow",
+      "website": "https://www.isr.umich.edu/lasi/",
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=LASI"
+    }
+  },
+  "categories": {
+    "indi": {
+      "name": "INDI - International Neuroimaging Data-sharing Initiative",
+      "description": "Open datasets from the FCP-INDI consortium",
+      "auth_required": false,
+      "download_method": "aws_s3"
+    },
+    "openneuro": {
+      "name": "OpenNeuro",
+      "description": "Open platform for sharing neuroimaging data",
+      "auth_required": false,
+      "download_method": "aws_s3"
+    },
+    "independent": {
+      "name": "Independent Datasets",
+      "description": "Standalone datasets from various institutions",
+      "auth_required": "varies",
+      "download_method": "varies"
+    },
+    "rbc": {
+      "name": "Reproducible Brain Charts",
+      "description": "Datasets from the ReproBrainChart project",
+      "auth_required": false,
+      "download_method": "datalad"
+    },
+    "ida": {
+      "name": "IDA-LONI",
+      "description": "Image & Data Archive - Laboratory of Neuro Imaging",
+      "auth_required": true,
+      "download_method": "ida_loni"
+    }
+  },
+  "download_methods": {
+    "aws_s3": {
+      "name": "AWS S3",
+      "description": "Download using AWS CLI with no-sign-request",
+      "dependencies": ["awscli"]
+    },
+    "aria2c": {
+      "name": "Aria2",
+      "description": "Fast parallel downloader",
+      "dependencies": ["aria2c"]
+    },
+    "datalad": {
+      "name": "DataLad",
+      "description": "Git-based data management",
+      "dependencies": ["git", "datalad"]
+    },
+    "ida_loni": {
+      "name": "IDA-LONI Interactive",
+      "description": "Interactive authentication workflow for IDA-LONI datasets",
+      "dependencies": ["aria2c", "firefox"]
+    },
+    "aws_credentials": {
+      "name": "AWS with Credentials",
+      "description": "Download using AWS CLI with user credentials",
+      "dependencies": ["awscli"]
+    },
+    "special": {
+      "name": "Special Procedure",
+      "description": "Dataset-specific download procedure",
+      "dependencies": "varies"
+    }
+  }
+}
