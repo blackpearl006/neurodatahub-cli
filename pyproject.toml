@@ -7,7 +7,7 @@ name = "neurodatahub-cli"
 version = "1.0.1"
 description = "A command-line interface for downloading neuroimaging datasets"
 authors = [
-    {name = "NeuroDataHub Team", email = "contact@neurodatahub.org"}
+    {name = "Ninad Aithal", email = "reachninadaithal@gmail.com"}
 ]
 readme = "README.md"
 license = {text = "MIT"}
