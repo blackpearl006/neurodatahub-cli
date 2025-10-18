@@ -4,13 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-NeuroDataHub CLI is a command-line tool for downloading 30+ neuroimaging datasets from multiple sources (INDI, OpenNeuro, ReproBrainChart, IDA-LONI, etc.). It handles diverse authentication workflows, supports multiple download backends (AWS CLI, aria2c, DataLad), and provides a rich user experience with progress tracking.
+NeuroDataHub CLI is a command-line tool for downloading 39 neuroimaging datasets from multiple sources (INDI, OpenNeuro, ReproBrainChart, IDA-LONI, etc.) AND distributing 10 brain atlases for network analysis. It handles diverse authentication workflows, supports multiple download backends (AWS CLI, aria2c, DataLad), and provides a rich user experience with progress tracking.
 
 **Key stats:**
 - Package name: `neurodatahub-cli`
 - Python versions: 3.8+
 - Entry point: `neurodatahub.cli:main`
-- Current version: 1.0.2 (tracked in `pyproject.toml`)
+- Current version: 1.0.3 (tracked in `pyproject.toml`)
+- Datasets: 39 (87.2% with metadata)
+- Brain Atlases: 10 (from BrainGraph R package)
 
 ## Development Commands
 
@@ -273,6 +275,78 @@ Use utility functions from `neurodatahub/utils.py`:
 - `display_error()`, `display_warning()`, `display_info()`, `display_success()`
 - `get_confirmation()`, `get_user_input()`
 - `check_dependency()`, `run_command()`
+
+## Brain Atlas Management
+
+NeuroDataHub includes 10 curated brain atlases for network analysis:
+
+### Available Atlases
+
+1. **Anatomical** (4): AAL90, Destrieux, Destrieux_SCGM, DK82
+2. **Functional** (4): Power264, Dosenbach160, Gordon333, Craddock200
+3. **Multimodal** (1): HCP_MMP_Glasser_360
+4. **Connectivity-based** (1): Brainnetome
+
+### Atlas CLI Commands
+
+```bash
+# List all atlases
+neurodatahub atlas list
+
+# Filter by type
+neurodatahub atlas list --type functional
+
+# Filter by ROI count
+neurodatahub atlas list --min-rois 200 --max-rois 300
+
+# Show detailed information
+neurodatahub atlas info HCP_MMP_GLASSER_360
+
+# Download specific atlas
+neurodatahub atlas download AAL90 --path ./my_atlases
+
+# Download all atlases
+neurodatahub atlas download-all --path ./all_atlases
+
+# Show attribution
+neurodatahub atlas attribution
+
+# List atlas types
+neurodatahub atlas types
+```
+
+### Atlas Data Structure
+
+Atlases are stored in `neurodatahub/data/atlases/` and `data/atlases/`:
+- CSV files with MNI coordinates and region metadata
+- Columns: name, x.mni, y.mni, z.mni, lobe, hemi, index (+ additional metadata)
+- Configuration in `atlases.json`
+
+### Atlas Manager
+
+The `AtlasManager` class (`neurodatahub/atlas.py`) provides:
+- `list_atlases()` - Filter atlases by type, ROI count
+- `get_atlas()` - Get atlas by ID
+- `display_atlases_table()` - Rich table display
+- `display_atlas_info()` - Detailed atlas information
+- `copy_atlas()` - Copy atlas file to directory
+- `copy_all_atlases()` - Copy all atlases
+
+### Adding a New Atlas
+
+1. Add CSV file to `neurodatahub/data/atlases/` and `data/atlases/`
+2. Update `atlases.json` with atlas metadata:
+   - name, num_rois, atlas_type, parcellation_type
+   - description, suitable_for, age_range
+   - reference, doi, columns
+3. Test with `neurodatahub atlas list` and `info`
+
+### Atlas Attribution
+
+All atlases were obtained using the BrainGraph R package (Watson, 2024):
+- Reference: Watson CG (2024). brainGraph: Graph Theory Analysis of Brain MRI Data
+- DOI: 10.32614/CRAN.package.brainGraph
+- NIfTI images to be added in future releases
 
 ## Release Process
 

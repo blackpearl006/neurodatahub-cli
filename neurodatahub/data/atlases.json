@@ -1,0 +1,274 @@
+{
+  "atlases": {
+    "AAL90": {
+      "name": "Automated Anatomical Labeling (AAL) 90",
+      "short_name": "AAL90",
+      "num_rois": 90,
+      "file": "aal90.csv",
+      "nifti_file": null,
+      "atlas_type": "anatomical",
+      "parcellation_type": "coarse",
+      "description": "Classic anatomical atlas based on single-subject MNI template with 90 cortical and subcortical regions",
+      "suitable_for": [
+        "General population studies",
+        "Structural connectivity",
+        "ROI-based analysis",
+        "Reproducible studies"
+      ],
+      "age_range": "All ages",
+      "resolution": "Coarse (90 ROIs)",
+      "reference": "Tzourio-Mazoyer et al. (2002)",
+      "doi": "10.1006/nimg.2001.0978",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": true,
+      "coordinate_system": "MNI",
+      "notes": "One of the most widely used atlases in neuroimaging. Good for hypothesis-driven ROI analyses."
+    },
+    "HCP_MMP_GLASSER_360": {
+      "name": "Human Connectome Project Multi-Modal Parcellation (HCP-MMP1.0)",
+      "short_name": "Glasser360",
+      "num_rois": 360,
+      "file": "hcp_mmp_glasser_360.csv",
+      "nifti_file": null,
+      "atlas_type": "multimodal",
+      "parcellation_type": "fine",
+      "description": "High-resolution cortical parcellation based on multiple MRI modalities (architecture, function, connectivity, topography)",
+      "suitable_for": [
+        "Young adults (HCP cohort 22-35 years)",
+        "High-resolution connectivity",
+        "Precision functional mapping",
+        "Multi-modal neuroimaging",
+        "Network neuroscience"
+      ],
+      "age_range": "Optimized for young adults (22-35 years)",
+      "resolution": "Fine (360 ROIs)",
+      "reference": "Glasser et al. (2016)",
+      "doi": "10.1038/nature18933",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index", "area", "name.full"],
+      "includes_subcortical": false,
+      "coordinate_system": "MNI",
+      "notes": "Highly parcellated atlas ideal for detailed cortical analysis. May not generalize well to older populations or children. Does not include subcortical structures."
+    },
+    "BRAINNETOME": {
+      "name": "Brainnetome Atlas",
+      "short_name": "Brainnetome",
+      "num_rois": 246,
+      "file": "brainnetome.csv",
+      "nifti_file": null,
+      "atlas_type": "connectivity-based",
+      "parcellation_type": "fine",
+      "description": "In vivo atlas based on connectivity patterns, subdividing AAL regions into finer functional subregions",
+      "suitable_for": [
+        "Connectivity-based analyses",
+        "Functional network studies",
+        "Cross-population studies",
+        "Detailed cortical parcellation"
+      ],
+      "age_range": "Adults",
+      "resolution": "Fine (246 ROIs)",
+      "reference": "Fan et al. (2016)",
+      "doi": "10.1093/cercor/bhw157",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": true,
+      "coordinate_system": "MNI",
+      "notes": "Provides functionally meaningful subdivisions based on connectivity patterns. Good balance between detail and interpretability."
+    },
+    "GORDON333": {
+      "name": "Gordon Surface-based Parcellation",
+      "short_name": "Gordon333",
+      "num_rois": 333,
+      "file": "gordon333.csv",
+      "nifti_file": null,
+      "atlas_type": "functional",
+      "parcellation_type": "fine",
+      "description": "Surface-based functional parcellation derived from resting-state fMRI data",
+      "suitable_for": [
+        "Functional connectivity",
+        "Resting-state fMRI",
+        "Network analysis",
+        "Individual variability studies"
+      ],
+      "age_range": "Adults and children",
+      "resolution": "Fine (333 ROIs)",
+      "reference": "Gordon et al. (2016)",
+      "doi": "10.1093/cercor/bhu239",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": true,
+      "coordinate_system": "MNI",
+      "notes": "Functional parcellation based on task-free fMRI. Good for network-based analyses across the lifespan."
+    },
+    "POWER264": {
+      "name": "Power Functional ROIs",
+      "short_name": "Power264",
+      "num_rois": 264,
+      "file": "power264.csv",
+      "nifti_file": null,
+      "atlas_type": "functional",
+      "parcellation_type": "medium",
+      "description": "Functional ROIs based on meta-analysis of task fMRI and resting-state connectivity",
+      "suitable_for": [
+        "Functional connectivity",
+        "Graph theory analysis",
+        "Network neuroscience",
+        "Resting-state analysis"
+      ],
+      "age_range": "Adults and children",
+      "resolution": "Medium (264 ROIs)",
+      "reference": "Power et al. (2011)",
+      "doi": "10.1016/j.neuron.2011.09.006",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": true,
+      "coordinate_system": "MNI",
+      "notes": "Widely used for graph-theoretical analysis and network neuroscience. Includes both cortical and subcortical regions."
+    },
+    "DOSENBACH160": {
+      "name": "Dosenbach Functional ROIs",
+      "short_name": "Dosenbach160",
+      "num_rois": 160,
+      "file": "dosenbach160.csv",
+      "nifti_file": null,
+      "atlas_type": "functional",
+      "parcellation_type": "coarse",
+      "description": "Functional ROIs identified from task and rest fMRI, emphasizing control and sensorimotor networks",
+      "suitable_for": [
+        "Developmental studies",
+        "Control network analysis",
+        "Pediatric neuroimaging",
+        "Network maturation"
+      ],
+      "age_range": "Children and adults",
+      "resolution": "Coarse (160 ROIs)",
+      "reference": "Dosenbach et al. (2010)",
+      "doi": "10.1126/science.1194144",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": true,
+      "coordinate_system": "MNI",
+      "notes": "Particularly useful for developmental and lifespan studies. Emphasizes control networks."
+    },
+    "CRADDOCK200": {
+      "name": "Craddock 200 Parcellation",
+      "short_name": "Craddock200",
+      "num_rois": 200,
+      "file": "craddock200.csv",
+      "nifti_file": null,
+      "atlas_type": "functional",
+      "parcellation_type": "medium",
+      "description": "Spatially constrained spectral clustering parcellation based on resting-state fMRI",
+      "suitable_for": [
+        "Resting-state fMRI",
+        "Whole-brain connectivity",
+        "Reproducibility studies",
+        "Cross-dataset comparisons"
+      ],
+      "age_range": "Adults",
+      "resolution": "Medium (200 ROIs)",
+      "reference": "Craddock et al. (2012)",
+      "doi": "10.1002/hbm.21333",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": true,
+      "coordinate_system": "MNI",
+      "notes": "Data-driven parcellation providing good balance between spatial specificity and functional coherence."
+    },
+    "DESTRIEUX": {
+      "name": "Destrieux Atlas",
+      "short_name": "Destrieux",
+      "num_rois": 148,
+      "file": "destrieux.csv",
+      "nifti_file": null,
+      "atlas_type": "anatomical",
+      "parcellation_type": "medium",
+      "description": "Surface-based cortical parcellation with detailed gyral and sulcal labeling",
+      "suitable_for": [
+        "Structural analysis",
+        "Cortical morphometry",
+        "Surface-based studies",
+        "FreeSurfer workflows"
+      ],
+      "age_range": "All ages",
+      "resolution": "Medium (148 cortical ROIs)",
+      "reference": "Destrieux et al. (2010)",
+      "doi": "10.1016/j.neuroimage.2010.06.010",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": false,
+      "coordinate_system": "MNI",
+      "notes": "Based on FreeSurfer surface parcellation. More detailed than Desikan-Killiany. Cortical regions only."
+    },
+    "DESTRIEUX_SCGM": {
+      "name": "Destrieux Atlas with Subcortical Gray Matter",
+      "short_name": "Destrieux_SCGM",
+      "num_rois": 162,
+      "file": "destrieux_scgm.csv",
+      "nifti_file": null,
+      "atlas_type": "anatomical",
+      "parcellation_type": "medium",
+      "description": "Destrieux cortical atlas extended with subcortical gray matter structures",
+      "suitable_for": [
+        "Structural analysis",
+        "Cortical-subcortical connectivity",
+        "FreeSurfer workflows",
+        "Whole-brain morphometry"
+      ],
+      "age_range": "All ages",
+      "resolution": "Medium (162 ROIs)",
+      "reference": "Destrieux et al. (2010)",
+      "doi": "10.1016/j.neuroimage.2010.06.010",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": true,
+      "coordinate_system": "MNI",
+      "notes": "Extended version of Destrieux atlas including subcortical structures (thalamus, caudate, putamen, etc.)"
+    },
+    "DK_SCGM82": {
+      "name": "Desikan-Killiany Atlas with Subcortical (82 ROIs)",
+      "short_name": "DK82",
+      "num_rois": 82,
+      "file": "dk.scgm82.csv",
+      "nifti_file": null,
+      "atlas_type": "anatomical",
+      "parcellation_type": "coarse",
+      "description": "Desikan-Killiany cortical parcellation with subcortical gray matter structures",
+      "suitable_for": [
+        "Clinical studies",
+        "Aging research",
+        "Disease characterization",
+        "FreeSurfer workflows",
+        "Hypothesis-driven ROI analysis"
+      ],
+      "age_range": "All ages",
+      "resolution": "Coarse (82 ROIs)",
+      "reference": "Desikan et al. (2006)",
+      "doi": "10.1016/j.neuroimage.2006.01.021",
+      "columns": ["name", "x.mni", "y.mni", "z.mni", "lobe", "hemi", "index"],
+      "includes_subcortical": true,
+      "coordinate_system": "MNI",
+      "notes": "Default FreeSurfer cortical parcellation plus subcortical structures. Widely used in clinical neuroimaging."
+    }
+  },
+  "metadata": {
+    "source": "Generated from BrainGraph R library",
+    "attribution": "Atlas coordinate files obtained using the BrainGraph R package (Watson, 2024)",
+    "brainGraph_reference": "Watson CG (2024). brainGraph: Graph Theory Analysis of Brain MRI Data. R package version 3.1.0",
+    "brainGraph_doi": "10.32614/CRAN.package.brainGraph",
+    "file_format": "CSV with MNI coordinates and region metadata",
+    "coordinate_system": "MNI152",
+    "notes": "NIfTI atlas images to be added in future releases. Current CSV files contain ROI coordinates, labels, and metadata suitable for network analysis and visualization.",
+    "last_updated": "2025-01-18"
+  },
+  "atlas_types": {
+    "anatomical": {
+      "description": "Based on anatomical landmarks and structural features",
+      "examples": ["AAL90", "Destrieux", "DK82"]
+    },
+    "functional": {
+      "description": "Based on functional connectivity patterns from fMRI",
+      "examples": ["Power264", "Dosenbach160", "Gordon333", "Craddock200"]
+    },
+    "multimodal": {
+      "description": "Based on multiple imaging modalities (structure, function, connectivity)",
+      "examples": ["HCP_MMP_GLASSER_360"]
+    },
+    "connectivity-based": {
+      "description": "Based on white matter connectivity or resting-state connectivity patterns",
+      "examples": ["Brainnetome"]
+    }
+  }
+}

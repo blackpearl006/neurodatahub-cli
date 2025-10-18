@@ -1,0 +1,265 @@
+"","name","x.mni","y.mni","z.mni","lobe","hemi","index","network","Anatomy","Brodmann"
+"1","Occipital_Inf.L2",-25,-98,-12,"Occipital","L",1,"Uncertain","Inferior Occipital Gyrus",18
+"2","Occipital_Pole.R1",27,-97,-13,"Occipital","R",2,"Uncertain","Occipital Pole",18
+"3","Frontal_Inf_Orb.R3",24,32,-18,"Frontal","R",3,"Uncertain","Medial Orbital Gyrus",11
+"4","Temporal_Inf.L2",-56,-45,-24,"Temporal","L",4,"Uncertain","Inferior Temporal Gyrus",20
+"5","Rectus.R2",8,41,-24,"Frontal","R",5,"Uncertain","Gyrus Rectus",11
+"6","Hippocampus.L2",-21,-22,-20,"Limbic","L",6,"Uncertain","Cerebral White Matter",30
+"7","ParaHippocampal.R2",17,-28,-17,"Limbic","R",7,"Uncertain",NA,0
+"8","Fusiform.L3",-37,-29,-26,"Temporal","L",8,"Uncertain","Fusiform Gyrus",20
+"9","Temporal_Inf.R2",65,-24,-19,"Temporal","R",9,"Uncertain","Middle Temporal Gyrus",20
+"10","Temporal_Inf.R3",52,-34,-27,"Temporal","R",10,"Uncertain","Inferior Temporal Gyrus",20
+"11","Temporal_Inf.R4",55,-31,-17,"Temporal","R",11,"Uncertain","Inferior Temporal Gyrus",20
+"12","Frontal_Inf_Orb.R4",34,38,-12,"Frontal","R",12,"Uncertain","Anterior Orbital Gyrus",47
+"13","Precuneus.L1",-7,-52,61,"Parietal","L",13,"Sensory/Somatomotor Hand","Cerebral White Matter",5
+"14","Cingulum_Post.L1",-14,-18,40,"Limbic","L",14,"Sensory/Somatomotor Hand","Supplementary Motor Cortex",0
+"15","Supp_Motor_Area.L1",0,-15,47,"Frontal","L",15,"Sensory/Somatomotor Hand",NA,23
+"16","Supp_Motor_Area.R1",10,-2,45,"Frontal","R",16,"Sensory/Somatomotor Hand","Supplementary Motor Cortex",0
+"17","Paracentral_Lobule.L1",-7,-21,65,"Frontal","L",17,"Sensory/Somatomotor Hand","Precentral Gyrus Medial Segment",4
+"18","Paracentral_Lobule.L2",-7,-33,72,"Frontal","L",18,"Sensory/Somatomotor Hand","Precentral Gyrus",4
+"19","Postcentral.R1",13,-33,75,"Parietal","R",19,"Sensory/Somatomotor Hand","Postcentral Gyrus",4
+"20","Parietal_Inf.L1",-54,-23,43,"Parietal","L",20,"Sensory/Somatomotor Hand","Postcentral Gyrus",3
+"21","Precentral.R1",29,-17,71,"Frontal","R",21,"Sensory/Somatomotor Hand","Precentral Gyrus",6
+"22","Precuneus.R1",10,-46,73,"Parietal","R",22,"Sensory/Somatomotor Hand","Precuneus",5
+"23","Postcentral.L1",-23,-30,72,"Parietal","L",23,"Sensory/Somatomotor Hand","Postcentral Gyrus",4
+"24","Precentral.L1",-40,-19,54,"Frontal","L",24,"Sensory/Somatomotor Hand","Precentral Gyrus",4
+"25","Postcentral.R2",29,-39,59,"Parietal","R",25,"Sensory/Somatomotor Hand","Superior Parietal Lobule",2
+"26","Postcentral.R3",50,-20,42,"Parietal","R",26,"Sensory/Somatomotor Hand","Postcentral Gyrus",3
+"27","Postcentral.L2",-38,-27,69,"Parietal","L",27,"Sensory/Somatomotor Hand","Postcentral Gyrus",4
+"28","Precentral.R2",20,-29,60,"Frontal","R",28,"Sensory/Somatomotor Hand","Postcentral Gyrus",3
+"29","Precentral.R3",44,-8,57,"Frontal","R",29,"Sensory/Somatomotor Hand","Precentral Gyrus",6
+"30","Postcentral.L3",-29,-43,61,"Parietal","L",30,"Sensory/Somatomotor Hand","Superior Parietal Lobule",2
+"31","Supp_Motor_Area.R2",10,-17,74,"Frontal","R",31,"Sensory/Somatomotor Hand","Precentral Gyrus",6
+"32","Postcentral.R4",22,-42,69,"Parietal","R",32,"Sensory/Somatomotor Hand","Postcentral Gyrus",0
+"33","Postcentral.L4",-45,-32,47,"Parietal","L",33,"Sensory/Somatomotor Hand",NA,2
+"34","Postcentral.L5",-21,-31,61,"Parietal","L",34,"Sensory/Somatomotor Hand","Postcentral Gyrus",3
+"35","Paracentral_Lobule.L3",-13,-17,75,"Frontal","L",35,"Sensory/Somatomotor Hand","Precentral Gyrus",6
+"36","Precentral.R4",42,-20,55,"Frontal","R",36,"Sensory/Somatomotor Hand","Precentral Gyrus",3
+"37","Precentral.L2",-38,-15,69,"Frontal","L",37,"Sensory/Somatomotor Hand","Precentral Gyrus",6
+"38","Parietal_Sup.L1",-16,-46,73,"Parietal","L",38,"Sensory/Somatomotor Hand","Postcentral Gyrus",5
+"39","Paracentral_Lobule.R1",2,-28,60,"Frontal","R",39,"Sensory/Somatomotor Hand",NA,4
+"40","Supp_Motor_Area.R3",3,-17,58,"Frontal","R",40,"Sensory/Somatomotor Hand","Precentral Gyrus Medial Segment",6
+"41","Precentral.R5",38,-17,45,"Frontal","R",41,"Sensory/Somatomotor Hand","Postcentral Gyrus",4
+"42","Postcentral.L6",-49,-11,35,"Frontal","L",42,"Sensory/Somatomotor Mouth","Precentral Gyrus",3
+"43","Insula.R1",36,-9,14,"Insula","R",43,"Sensory/Somatomotor Mouth","Posterior Insula",48
+"44","Postcentral.R6",51,-6,32,"Frontal","R",44,"Sensory/Somatomotor Mouth","Precentral Gyrus",4
+"45","Postcentral.L7",-53,-10,24,"Parietal","L",45,"Sensory/Somatomotor Mouth","Postcentral Gyrus",48
+"46","Postcentral.R7",66,-8,25,"Parietal","R",46,"Sensory/Somatomotor Mouth","Postcentral Gyrus",43
+"47","Supp_Motor_Area.L2",-3,2,53,"Frontal","L",47,"Cingulo-opercular Task Control","Supplementary Motor Cortex",0
+"48","SupraMarginal.R1",54,-28,34,"Parietal","R",48,"Cingulo-opercular Task Control","Parietal Operculum",2
+"49","Frontal_Sup.R1",19,-8,64,"Frontal","R",49,"Cingulo-opercular Task Control","Superior Frontal Gyrus",6
+"50","Frontal_Sup.L1",-16,-5,71,"Frontal","L",50,"Cingulo-opercular Task Control","Superior Frontal Gyrus",6
+"51","Cingulum_Mid.L1",-10,-2,42,"Limbic","L",51,"Cingulo-opercular Task Control","Middle Cingulate Gyrus",0
+"52","Insula.R2",37,1,-4,"Insula","R",52,"Cingulo-opercular Task Control","Posterior Insula",48
+"53","Supp_Motor_Area.R4",13,-1,70,"Frontal","R",53,"Cingulo-opercular Task Control","Superior Frontal Gyrus",6
+"54","Supp_Motor_Area.R5",7,8,51,"Frontal","R",54,"Cingulo-opercular Task Control","Supplementary Motor Cortex",6
+"55","Rolandic_Oper.L1",-45,0,9,"Frontal","L",55,"Cingulo-opercular Task Control","Central Operculum",48
+"56","Central_Oper.R1",49,8,-1,"Frontal","R",56,"Cingulo-opercular Task Control","Central Operculum",48
+"57","Insula.L1",-34,3,4,"Insula","L",57,"Cingulo-opercular Task Control","Cerebral White Matter",48
+"58","Central_Oper.L1",-51,8,-2,"Frontal","L",58,"Cingulo-opercular Task Control","Central Operculum",48
+"59","Cingulum_Mid.L2",-5,18,34,"Limbic","L",59,"Cingulo-opercular Task Control","Middle Cingulate Gyrus",24
+"60","Insula.R3",36,10,1,"Insula","R",60,"Cingulo-opercular Task Control","Anterior Insula",48
+"61","Insula.R4",32,-26,13,"Insula","R",61,"Auditory","Transverse Temporal Gyrus",48
+"62","Temporal_Sup.R1",65,-33,20,"Temporal","R",62,"Auditory","Supramarginal Gyrus",42
+"63","Temporal_Sup.R2",58,-16,7,"Temporal","R",63,"Auditory","Planum Temporale",22
+"64","Rolandic_Oper.L2",-38,-33,17,"Parietal","L",64,"Auditory","Parietal Operculum",48
+"65","Temporal_Sup.L1",-60,-25,14,"Temporal","L",65,"Auditory","Parietal Operculum",42
+"66","Temporal_Sup.L2",-49,-26,5,"Temporal","L",66,"Auditory","Planum Temporale",48
+"67","Rolandic_Oper.R1",43,-23,20,"Parietal","R",67,"Auditory","Parietal Operculum",48
+"68","SupraMarginal.L1",-50,-34,26,"Parietal","L",68,"Auditory","Cerebral White Matter",48
+"69","SupraMarginal.L2",-53,-22,23,"Parietal","L",69,"Auditory","Cerebral White Matter",48
+"70","Rolandic_Oper.L3",-55,-9,12,"Frontal","L",70,"Auditory","Cerebral White Matter",48
+"71","Rolandic_Oper.R2",56,-5,13,"Frontal","R",71,"Auditory","Cerebral White Matter",48
+"72","Postcentral.R8",59,-17,29,"Parietal","R",72,"Auditory","Supramarginal Gyrus",48
+"73","Insula.L2",-30,-27,12,"Insula","L",73,"Auditory","Posterior Insula",48
+"74","Occipital_Mid.L1",-41,-75,26,"Occipital","L",74,"Default Mode","Middle Occipital Gyrus",39
+"75","Frontal_Med_Orb.R1",6,67,-4,"Frontal","R",75,"Default Mode","Frontal Pole",10
+"76","Rectus.R1",8,48,-15,"Frontal","R",76,"Default Mode","Cerebral White Matter",11
+"77","Hippocampus.L1",-13,-40,1,"Limbic","L",77,"Default Mode","Posterior Cingulate Gyrus",27
+"78","Frontal_Sup_Orb.L1",-18,63,-9,"Frontal","L",78,"Default Mode","Anterior Orbital Gyrus",11
+"79","Temporal_Mid.L1",-46,-61,21,"Temporal","L",79,"Default Mode","Cerebral White Matter",39
+"80","Occipital_Mid.R1",43,-72,28,"Occipital","R",80,"Default Mode","Cerebral White Matter",39
+"81","Temporal_Pole_Mid.L1",-44,12,-34,"Temporal","L",81,"Default Mode","Temporal Pole",20
+"82","Temporal_Pole_Mid.R1",46,16,-30,"Temporal","R",82,"Default Mode","Temporal Pole",38
+"83","Temporal_Mid.L2",-68,-23,-16,"Temporal","L",83,"Default Mode","Middle Temporal Gyrus",20
+"84","Temporal_Mid.L10",-58,-26,-15,"Temporal","L",84,"Uncertain","Middle Temporal Gyrus",20
+"85","Insula.R7",27,16,-17,"Insula","R",85,"Uncertain","Anterior Insula",48
+"86","Angular.L1",-44,-65,35,"Parietal","L",86,"Default Mode","Angular Gyrus",39
+"87","Angular.L2",-39,-75,44,"Parietal","L",87,"Default Mode","Angular Gyrus",7
+"88","Cingulum_Post.L2",-7,-55,27,"Limbic","L",88,"Default Mode","Precuneus",23
+"89","Precuneus.R2",6,-59,35,"Parietal","R",89,"Default Mode","Cerebral White Matter",0
+"90","Precuneus.L4",-11,-56,16,"Parietal","L",90,"Default Mode","Precuneus",30
+"91","Cingulum_Post.L3",-3,-49,13,"Limbic","L",91,"Default Mode","Posterior Cingulate Gyrus",0
+"92","Cingulum_Mid.R1",8,-48,31,"Limbic","R",92,"Default Mode","Posterior Cingulate Gyrus",23
+"93","Precuneus.R3",15,-63,26,"Parietal","R",93,"Default Mode","Precuneus",23
+"94","Cingulum_Mid.L3",-2,-37,44,"Limbic","L",94,"Default Mode","Posterior Cingulate Gyrus",0
+"95","Precuneus.R4",11,-54,17,"Parietal","R",95,"Default Mode","Precuneus",30
+"96","Angular.R1",52,-59,36,"Parietal","R",96,"Default Mode","Angular Gyrus",39
+"97","Frontal_Sup.R2",23,33,48,"Frontal","R",97,"Default Mode","Superior Frontal Gyrus",9
+"98","Frontal_Sup_Medial.L1",-10,39,52,"Frontal","L",98,"Default Mode","Superior Frontal Gyrus",9
+"99","Frontal_Sup.L2",-16,29,53,"Frontal","L",99,"Default Mode","Superior Frontal Gyrus",8
+"100","Frontal_Mid.L1",-35,20,51,"Frontal","L",100,"Default Mode","Middle Frontal Gyrus",9
+"101","Frontal_Sup.R3",22,39,39,"Frontal","R",101,"Default Mode","Superior Frontal Gyrus",9
+"102","Frontal_Sup.R4",13,55,38,"Frontal","R",102,"Default Mode","Superior Frontal Gyrus",9
+"103","Frontal_Sup.L3",-10,55,39,"Frontal","L",103,"Default Mode","Superior Frontal Gyrus",9
+"104","Frontal_Sup.L4",-20,45,39,"Frontal","L",104,"Default Mode","Superior Frontal Gyrus",9
+"105","Frontal_Sup_Medial.R1",6,54,16,"Frontal","R",105,"Default Mode","Superior Frontal Gyrus Medial Segment",10
+"106","Frontal_Sup_Medial.R2",6,64,22,"Frontal","R",106,"Default Mode","Superior Frontal Gyrus Medial Segment",10
+"107","Cingulum_Ant.L1",-7,51,-1,"Limbic","L",107,"Default Mode","Superior Frontal Gyrus Medial Segment",10
+"108","Frontal_Sup_Medial.R3",9,54,3,"Frontal","R",108,"Default Mode","Cerebral White Matter",10
+"109","Frontal_Med_Orb.L1",-3,44,-9,"Frontal","L",109,"Default Mode","Anterior Cingulate Gyrus",11
+"110","Frontal_Med_Orb.R2",8,42,-5,"Frontal","R",110,"Default Mode","Anterior Cingulate Gyrus",11
+"111","Cingulum_Ant.L2",-11,45,8,"Limbic","L",111,"Default Mode","Superior Frontal Gyrus Medial Segment",32
+"112","Frontal_Sup_Medial.L2",-2,38,36,"Frontal","L",112,"Default Mode","Superior Frontal Gyrus Medial Segment",32
+"113","Cingulum_Ant.L3",-3,42,16,"Limbic","L",113,"Default Mode","Anterior Cingulate Gyrus",32
+"114","Frontal_Sup.L5",-20,64,19,"Frontal","L",114,"Default Mode","Superior Frontal Gyrus",10
+"115","Frontal_Sup_Medial.L3",-8,48,23,"Frontal","L",115,"Default Mode","Superior Frontal Gyrus Medial Segment",32
+"116","Temporal_Mid.R1",65,-12,-19,"Temporal","R",116,"Default Mode","Middle Temporal Gyrus",21
+"117","Temporal_Mid.L3",-56,-13,-10,"Temporal","L",117,"Default Mode","Middle Temporal Gyrus",22
+"118","Temporal_Mid.L4",-58,-30,-4,"Temporal","L",118,"Default Mode","Middle Temporal Gyrus",21
+"119","Temporal_Mid.R2",65,-31,-9,"Temporal","R",119,"Default Mode","Cerebral White Matter",21
+"120","Temporal_Mid.L5",-68,-41,-5,"Temporal","L",120,"Default Mode","Middle Temporal Gyrus",20
+"121","Frontal_Sup_Medial.R4",13,30,59,"Frontal","R",121,"Default Mode","Superior Frontal Gyrus",8
+"122","Cingulum_Ant.R1",12,36,20,"Limbic","R",122,"Default Mode","Anterior Cingulate Gyrus",32
+"123","Temporal_Mid.R3",52,-2,-16,"Temporal","R",123,"Default Mode","Superior Temporal Gyrus",21
+"124","ParaHippocampal.L1",-26,-40,-8,"Limbic","L",124,"Default Mode","Cerebral White Matter",37
+"125","ParaHippocampal.R1",27,-37,-13,"Limbic","R",125,"Default Mode"," Lingual Gyrus",37
+"126","Fusiform.L1",-34,-38,-16,"Temporal","L",126,"Default Mode","Fusiform Gyrus",37
+"127","Cerebellum_Crus1.R1",28,-77,-32,"Cerebellum","R",127,"Default Mode","Cerebellum Exterior",0
+"128","Temporal_Pole_Mid.R2",52,7,-30,"Temporal","R",128,"Default Mode","Cerebral White Matter",21
+"129","Temporal_Mid.L6",-53,3,-27,"Temporal","L",129,"Default Mode","Cerebral White Matter",21
+"130","Angular.R2",47,-50,29,"Parietal","R",130,"Default Mode","Cerebral White Matter",39
+"131","Temporal_Mid.L7",-49,-42,1,"Temporal","L",131,"Default Mode","Middle Temporal Gyrus",21
+"132","Frontal_Inf_Orb.L2",-31,19,-19,"Frontal","L",132,"Uncertain","Posterior Orbital Gyrus",38
+"133","Cingulum_Post.L4",-2,-35,31,"Limbic","L",133,"Memory Retrieval","Posterior Cingulate Gyrus",23
+"134","Precuneus.L6",-7,-71,42,"Parietal","L",134,"Memory Retrieval","Precuneus",7
+"135","Precuneus.R5",11,-66,42,"Parietal","R",135,"Memory Retrieval","Cerebral White Matter",7
+"136","Precuneus.R6",4,-48,51,"Parietal","R",136,"Memory Retrieval","Precuneus",0
+"137","Frontal_Inf_Orb.L1",-46,31,-13,"Frontal","L",137,"Default Mode","Cerebral White Matter",38
+"138","Supp_Motor_Area.L4",-10,11,67,"Frontal","L",138,"Ventral Attention","Superior Frontal Gyrus",6
+"139","Frontal_Inf_Orb.R1",49,35,-12,"Frontal","R",139,"Default Mode","Orbital Part Of The Inferior Frontal Gyrus",47
+"140","Lingual.R5",8,-91,-7,"Occipital","R",140,"Uncertain"," Lingual Gyrus",0
+"141","Lingual.R6",17,-91,-14,"Occipital","R",141,"Uncertain"," Lingual Gyrus",18
+"142","Occipital_Pole.L1",-12,-95,-13,"Occipital","L",142,"Uncertain","Cerebral White Matter",18
+"143","Lingual.R1",18,-47,-10,"Occipital","R",143,"Visual"," Lingual Gyrus",19
+"144","Occipital_Mid.R2",40,-72,14,"Occipital","R",144,"Visual","Middle Occipital Gyrus",37
+"145","Calcarine.R1",8,-72,11,"Occipital","R",145,"Visual","Calcarine Cortex",17
+"146","Calcarine.L1",-8,-81,7,"Occipital","L",146,"Visual","Calcarine Cortex",17
+"147","Occipital_Mid.L2",-28,-79,19,"Occipital","L",147,"Visual","Middle Occipital Gyrus",19
+"148","Lingual.R2",20,-66,2,"Occipital","R",148,"Visual","Cerebral White Matter",19
+"149","Occipital_Mid.L3",-24,-91,19,"Occipital","L",149,"Visual","Cerebral White Matter",18
+"150","Fusiform.R2",27,-59,-9,"Occipital","R",150,"Visual","Fusiform Gyrus",19
+"151","Lingual.L1",-15,-72,-8,"Occipital","L",151,"Visual","Cerebral White Matter",18
+"152","Calcarine.L2",-18,-68,5,"Occipital","L",152,"Visual","Calcarine Cortex",19
+"153","Occipital_Inf.R1",43,-78,-12,"Occipital","R",153,"Visual"," Inferior Occipital Gyrus",19
+"154","Occipital_Inf.L1",-47,-76,-10,"Occipital","L",154,"Visual","Inferior Occipital Gyrus",19
+"155","Occipital_Sup.L1",-14,-91,31,"Occipital","L",155,"Visual","Superior Occipital Gyrus",18
+"156","Cuneus.R1",15,-87,37,"Occipital","R",156,"Visual","Cerebral White Matter",19
+"157","Occipital_Mid.R3",29,-77,25,"Occipital","R",157,"Visual"," Superior Occipital Gyrus",19
+"158","Lingual.R3",20,-86,-2,"Occipital","R",158,"Visual","Cerebral White Matter",18
+"159","Cuneus.R2",15,-77,31,"Occipital","R",159,"Visual","Cuneus",18
+"160","Lingual.L2",-16,-52,-1,"Occipital","L",160,"Visual","Lingual Gyrus",18
+"161","Occipital_Inf.R2",42,-66,-8,"Occipital","R",161,"Visual","Cerebral White Matter",19
+"162","Occipital_Sup.R1",24,-87,24,"Occipital","R",162,"Visual","Cerebral White Matter",19
+"163","Cuneus.R3",6,-72,24,"Occipital","R",163,"Visual","Cerebral White Matter",18
+"164","Occipital_Mid.L4",-42,-74,0,"Occipital","L",164,"Visual","Inferior Occipital Gyrus",19
+"165","Fusiform.R3",26,-79,-16,"Occipital","R",165,"Visual","Occipital Fusiform Gyrus",18
+"166","Cuneus.L1",-16,-77,34,"Occipital","L",166,"Visual","Cuneus",18
+"167","Cuneus.L2",-3,-81,21,"Occipital","L",167,"Visual","Cuneus",18
+"168","Occipital_Mid.L5",-40,-88,-6,"Occipital","L",168,"Visual","Inferior Occipital Gyrus",18
+"169","Occipital_Mid.R4",37,-84,13,"Occipital","R",169,"Visual","Middle Occipital Gyrus",19
+"170","Calcarine.R2",6,-81,6,"Occipital","R",170,"Visual","Calcarine Cortex",17
+"171","Occipital_Mid.L6",-26,-90,3,"Occipital","L",171,"Visual","Middle Occipital Gyrus",18
+"172","Fusiform.L2",-33,-79,-13,"Occipital","L",172,"Visual","Occipital Fusiform Gyrus",19
+"173","Occipital_Mid.R5",37,-81,1,"Occipital","R",173,"Visual"," Inferior Occipital Gyrus",19
+"174","Precentral.L3",-44,2,46,"Frontal","L",174,"Fronto-parietal Task Control","Cerebral White Matter",6
+"175","Frontal_Inf_Tri.R1",48,25,27,"Frontal","R",175,"Fronto-parietal Task Control","Middle Frontal Gyrus",48
+"176","Frontal_Inf_Tri.L1",-47,11,23,"Frontal","L",176,"Fronto-parietal Task Control","Opercular Part Of The Inferior Frontal Gyrus",44
+"177","Parietal_Inf.L2",-53,-49,43,"Parietal","L",177,"Fronto-parietal Task Control","Supramarginal Gyrus",40
+"178","Frontal_Mid.L2",-23,11,64,"Frontal","L",178,"Fronto-parietal Task Control","Superior Frontal Gyrus",8
+"179","Temporal_Inf.R1",58,-53,-14,"Temporal","R",179,"Fronto-parietal Task Control","Cerebral White Matter",37
+"180","Frontal_Sup_Orb.R1",24,45,-15,"Frontal","R",180,"Fronto-parietal Task Control","Medial Orbital Gyrus",11
+"181","Frontal_Mid_Orb.R1",34,54,-13,"Frontal","R",181,"Fronto-parietal Task Control","Cerebral White Matter",0
+"182","Frontal_Mid_Orb.L2",-21,41,-20,"Frontal","L",182,"Uncertain","Medial Orbital Gyrus",0
+"183","Cerebellum_Crus1.L1",-18,-76,-24,"Cerebellum","L",183,"Uncertain","Cerebellum Exterior",0
+"184","Cerebellum_Crus2.R1",17,-80,-34,"Cerebellum","R",184,"Uncertain","Cerebellum Exterior",0
+"185","Cerebellum_Crus1.R2",35,-67,-34,"Cerebellum","R",185,"Uncertain","Cerebellum White Matter",0
+"186","Precentral.R6",47,10,33,"Frontal","R",186,"Fronto-parietal Task Control","Precentral Gyrus",44
+"187","Precentral.L4",-41,6,33,"Frontal","L",187,"Fronto-parietal Task Control","Middle Frontal Gyrus",44
+"188","Frontal_Mid.L3",-42,38,21,"Frontal","L",188,"Fronto-parietal Task Control","Middle Frontal Gyrus",45
+"189","Frontal_Mid.R1",38,43,15,"Frontal","R",189,"Fronto-parietal Task Control","Cerebral White Matter",45
+"190","Parietal_Inf.R1",49,-42,45,"Parietal","R",190,"Fronto-parietal Task Control","Supramarginal Gyrus",40
+"191","Parietal_Sup.L3",-28,-58,48,"Parietal","L",191,"Fronto-parietal Task Control","Cerebral White Matter",7
+"192","Parietal_Inf.R2",44,-53,47,"Parietal","R",192,"Fronto-parietal Task Control","Angular Gyrus",40
+"193","Frontal_Mid.R2",32,14,56,"Frontal","R",193,"Fronto-parietal Task Control","Middle Frontal Gyrus",8
+"194","Angular.R3",37,-65,40,"Parietal","R",194,"Fronto-parietal Task Control","Cerebral White Matter",7
+"195","Parietal_Inf.L4",-42,-55,45,"Parietal","L",195,"Fronto-parietal Task Control","Cerebral White Matter",40
+"196","Frontal_Mid.R3",40,18,40,"Frontal","R",196,"Fronto-parietal Task Control","Cerebral White Matter",44
+"197","Frontal_Mid.L4",-34,55,4,"Frontal","L",197,"Fronto-parietal Task Control","Cerebral White Matter",10
+"198","Frontal_Mid_Orb.L1",-42,45,-2,"Frontal","L",198,"Fronto-parietal Task Control","Triangular Part Of The Inferior Frontal Gyrus",47
+"199","Angular.R4",33,-53,44,"Parietal","R",199,"Fronto-parietal Task Control","Superior Parietal Lobule",7
+"200","Frontal_Mid_Orb.R2",43,49,-2,"Frontal","R",200,"Fronto-parietal Task Control","Middle Frontal Gyrus",46
+"201","Frontal_Inf_Tri.L2",-42,25,30,"Frontal","L",201,"Fronto-parietal Task Control","Cerebral White Matter",48
+"202","Frontal_Sup_Medial.L4",-3,26,44,"Frontal","L",202,"Fronto-parietal Task Control","Supplementary Motor Cortex",32
+"203","Cingulum_Mid.R3",11,-39,50,"Limbic","R",203,"Salience","Precuneus",0
+"204","Parietal_Inf.R3",55,-45,37,"Parietal","R",204,"Salience","Supramarginal Gyrus",40
+"205","Precentral.R7",42,0,47,"Frontal","R",205,"Salience","Middle Frontal Gyrus",6
+"206","Frontal_Mid.R4",31,33,26,"Frontal","R",206,"Salience","Cerebral White Matter",48
+"207","Frontal_Inf_Tri.R2",48,22,10,"Frontal","R",207,"Salience","Opercular Part Of The Inferior Frontal Gyrus",45
+"208","Insula.L3",-35,20,0,"Insula","L",208,"Salience","Anterior Insula",47
+"209","Insula.R5",36,22,3,"Insula","R",209,"Salience","Anterior Insula",47
+"210","Frontal_Inf_Orb.R2",37,32,-2,"Frontal","R",210,"Salience","Orbital Part Of The Inferior Frontal Gyrus",47
+"211","Insula.R6",34,16,-8,"Insula","R",211,"Salience","Anterior Insula",48
+"212","Cingulum_Ant.L4",-11,26,25,"Limbic","L",212,"Salience","Anterior Cingulate Gyrus",0
+"213","Supp_Motor_Area.L3",-1,15,44,"Frontal","L",213,"Salience","Supplementary Motor Cortex",24
+"214","Frontal_Mid.L5",-28,52,21,"Frontal","L",214,"Salience","Middle Frontal Gyrus",46
+"215","Cingulum_Ant.L5",0,30,27,"Limbic","L",215,"Salience",NA,0
+"216","Cingulum_Mid.R4",5,23,37,"Limbic","R",216,"Salience","Supplementary Motor Cortex",24
+"217","Cingulum_Ant.R2",10,22,27,"Limbic","R",217,"Salience","Cerebral White Matter",0
+"218","Frontal_Mid.R5",31,56,14,"Frontal","R",218,"Salience","Middle Frontal Gyrus",10
+"219","Frontal_Mid.R6",26,50,27,"Frontal","R",219,"Salience","Superior Frontal Gyrus",46
+"220","Frontal_Mid.L6",-39,51,17,"Frontal","L",220,"Salience","Middle Frontal Gyrus",46
+"221","Cingulum_Mid.R2",2,-24,30,"Limbic","R",221,"Memory Retrieval","Middle Cingulate Gyrus",23
+"222","Thalamus.R1",6,-24,0,"SCGM","R",222,"Subcortical","Ventral DC",0
+"223","Thalamus.L1",-2,-13,12,"SCGM","L",223,"Subcortical","Thalamus Proper",0
+"224","Thalamus.L2",-10,-18,7,"SCGM","L",224,"Subcortical","Thalamus Proper",0
+"225","Thalamus.R2",12,-17,8,"SCGM","R",225,"Subcortical","Thalamus Proper",0
+"226","Midbrain.L1",-5,-28,-4,"Brainstem","L",226,"Subcortical","Brain Stem",0
+"227","Putamen.L1",-22,7,-5,"SCGM","L",227,"Subcortical","Putamen",48
+"228","Caudate.L1",-15,4,8,"SCGM","L",228,"Subcortical","Cerebral White Matter",0
+"229","Putamen.R1",31,-14,2,"SCGM","R",229,"Subcortical","Putamen",48
+"230","Putamen.R2",23,10,1,"SCGM","R",230,"Subcortical","Putamen",48
+"231","Putamen.R3",29,1,4,"SCGM","R",231,"Subcortical","Putamen",0
+"232","Putamen.L2",-31,-11,0,"SCGM","L",232,"Subcortical","Putamen",48
+"233","Pallidum.R1",15,5,7,"SCGM","R",233,"Subcortical","Cerebral White Matter",0
+"234","Thalamus.R3",9,-4,6,"SCGM","R",234,"Subcortical","Thalamus Proper",0
+"235","Angular.R5",54,-43,22,"Parietal","R",235,"Ventral Attention","Angular Gyrus",42
+"236","Temporal_Mid.L8",-56,-50,10,"Temporal","L",236,"Ventral Attention","Middle Temporal Gyrus",21
+"237","Temporal_Sup.L3",-55,-40,14,"Temporal","L",237,"Ventral Attention","Cerebral White Matter",42
+"238","Temporal_Sup.R4",52,-33,8,"Temporal","R",238,"Ventral Attention","Superior Temporal Gyrus",22
+"239","Temporal_Mid.R4",51,-29,-4,"Temporal","R",239,"Ventral Attention","Middle Temporal Gyrus",21
+"240","Temporal_Sup.R5",56,-46,11,"Temporal","R",240,"Ventral Attention","Cerebral White Matter",22
+"241","Frontal_Inf_Tri.R3",53,33,1,"Frontal","R",241,"Ventral Attention","Cerebral White Matter",45
+"242","Frontal_Inf_Tri.L3",-49,25,-1,"Frontal","L",242,"Ventral Attention","Cerebral White Matter",47
+"243","Cerebellum_6.L1",-16,-65,-20,"Cerebellum","L",243,"Cerebellar","Cerebellum Exterior",18
+"244","Cerebellum_6.L2",-32,-55,-25,"Cerebellum","L",244,"Cerebellar","Cerebellum Exterior",37
+"245","Cerebellum_6.R1",22,-58,-23,"Cerebellum","R",245,"Cerebellar","Cerebellum Exterior",19
+"246","Vermis_6.1",1,-62,-18,"Cerebellum","R",246,"Cerebellar","Cerebellar Vermal Lobules I-V",0
+"247","Fusiform.R4",33,-12,-34,"Temporal","R",247,"Uncertain","Fusiform Gyrus",20
+"248","Fusiform.L4",-31,-10,-36,"Temporal","L",248,"Uncertain","Fusiform Gyrus",20
+"249","Temporal_Inf.R5",49,-3,-38,"Temporal","R",249,"Uncertain","Inferior Temporal Gyrus",20
+"250","Temporal_Inf.L3",-50,-7,-39,"Temporal","L",250,"Uncertain","Inferior Temporal Gyrus",20
+"251","Precuneus.R7",10,-62,61,"Parietal","R",251,"Dorsal Attention","Cerebral White Matter",0
+"252","Temporal_Mid.L9",-52,-63,5,"Temporal","L",252,"Dorsal Attention","Cerebral White Matter",37
+"253","Temporal_Inf.L4",-47,-51,-21,"Temporal","L",253,"Uncertain","Inferior Temporal Gyrus",37
+"254","Temporal_Inf.R6",46,-47,-17,"Temporal","R",254,"Uncertain","Fusiform Gyrus",20
+"255","Postcentral.R5",47,-30,49,"Parietal","R",255,"Sensory/Somatomotor Hand",NA,2
+"256","Parietal_Sup.R1",22,-65,48,"Parietal","R",256,"Dorsal Attention","Superior Parietal Lobule",7
+"257","Temporal_Mid.R5",46,-59,4,"Temporal","R",257,"Dorsal Attention","Middle Temporal Gyrus",37
+"258","Parietal_Sup.R2",25,-58,60,"Parietal","R",258,"Dorsal Attention",NA,7
+"259","Parietal_Inf.L5",-33,-46,47,"Parietal","L",259,"Dorsal Attention","Superior Parietal Lobule",40
+"260","Occipital_Mid.L7",-27,-71,37,"Parietal","L",260,"Dorsal Attention","Angular Gyrus",19
+"261","Precentral.L5",-32,-1,54,"Frontal","L",261,"Dorsal Attention","Middle Frontal Gyrus",6
+"262","Temporal_Inf.L1",-42,-60,-9,"Temporal","L",262,"Dorsal Attention","Fusiform Gyrus",37
+"263","Parietal_Sup.L2",-17,-59,64,"Parietal","L",263,"Dorsal Attention","Superior Parietal Lobule",5
+"264","Precentral.R8",29,-5,54,"Frontal","R",264,"Dorsal Attention","Superior Frontal Gyrus",6

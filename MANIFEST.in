@@ -3,6 +3,8 @@ include LICENSE
 include pyproject.toml
 recursive-include neurodatahub *.py
 recursive-include neurodatahub/data *.json
+recursive-include neurodatahub/data/atlases *.csv
+recursive-include data/atlases *.csv
 global-exclude *.pyc
 global-exclude __pycache__
 global-exclude *.so

@@ -8,11 +8,11 @@ Welcome to NeuroDataHub CLI! This guide will help you get up and running quickly
 ```bash
 pip install neurodatahub-cli
 ```
-
+<!-- 
 ### Via conda
 ```bash
 conda install -c conda-forge neurodatahub-cli
-```
+``` -->
 
 ### From source (Development)
 ```bash

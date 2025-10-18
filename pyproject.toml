@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neurodatahub-cli"
-version = "1.0.2"
-description = "A command-line interface for downloading neuroimaging datasets"
+version = "1.0.3"
+description = "A command-line interface for downloading neuroimaging datasets and brain atlases"
 authors = [
     {name = "Ninad Aithal", email = "reachninadaithal@gmail.com"}
 ]

@@ -7,6 +7,7 @@ import click
 from rich.console import Console
 
 from . import __version__
+from .atlas import atlas_manager
 from .auth import auth_manager
 from .datasets import dataset_manager
 from .downloader import download_manager
@@ -259,6 +260,79 @@ def version():
     console.print(f"NeuroDataHub CLI version {__version__}")
     console.print("Homepage: https://blackpearl006.github.io/NeuroDataHub/")
     console.print("Repository: https://github.com/blackpearl006/neurodatahub-cli")
+
+
+@main.group()
+def atlas():
+    """Manage and download brain atlases."""
+    pass
+
+
+@atlas.command('list')
+@click.option('--type', 'atlas_type', help='Filter by atlas type (anatomical, functional, multimodal, connectivity-based)')
+@click.option('--min-rois', type=int, help='Minimum number of ROIs')
+@click.option('--max-rois', type=int, help='Maximum number of ROIs')
+@click.option('--detailed', is_flag=True, help='Show detailed information')
+def atlas_list(atlas_type, min_rois, max_rois, detailed):
+    """List all available brain atlases."""
+    atlases = atlas_manager.list_atlases(
+        atlas_type=atlas_type,
+        min_rois=min_rois,
+        max_rois=max_rois
+    )
+    atlas_manager.display_atlases_table(atlases, detailed=detailed)
+
+
+@atlas.command('info')
+@click.argument('atlas_id')
+def atlas_info(atlas_id):
+    """Show detailed information about a specific atlas."""
+    atlas_manager.display_atlas_info(atlas_id)
+
+
+@atlas.command('download')
+@click.argument('atlas_id')
+@click.option('--path', default='.', help='Target directory (default: current directory)')
+def atlas_download(atlas_id, path):
+    """Download a specific atlas CSV file."""
+    success = atlas_manager.copy_atlas(atlas_id, path)
+    if not success:
+        sys.exit(1)
+
+
+@atlas.command('download-all')
+@click.option('--path', default='.', help='Target directory (default: current directory)')
+def atlas_download_all(path):
+    """Download all atlas CSV files."""
+    display_info(f"Downloading all atlases to {path}...")
+    count = atlas_manager.copy_all_atlases(path)
+    display_success(f"Successfully downloaded {count} atlases")
+
+
+@atlas.command('attribution')
+def atlas_attribution():
+    """Show attribution information for the atlas collection."""
+    atlas_manager.display_attribution()
+
+
+@atlas.command('types')
+def atlas_types():
+    """Show information about different atlas types."""
+    types_info = atlas_manager.get_atlas_types_info()
+
+    if not types_info:
+        display_info("No atlas type information available")
+        return
+
+    console.print("[bold cyan]Brain Atlas Types[/bold cyan]\n")
+
+    for type_name, type_data in types_info.items():
+        console.print(f"[bold]{type_name.upper()}[/bold]")
+        console.print(f"  Description: {type_data.get('description', 'N/A')}")
+        examples = type_data.get('examples', [])
+        if examples:
+            console.print(f"  Examples: {', '.join(examples)}")
+        console.print()
 
 
 if __name__ == '__main__':

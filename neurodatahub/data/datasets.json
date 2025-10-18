@@ -280,7 +280,7 @@
       "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003837 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "RBPL1": {
-      "name": "Reproducible Brain Phantoms Library 1",
+      "name": "The Reading Brain Project L1 Adults",
       "category": "openneuro",
       "description": "Brain phantom dataset for reproducibility studies",
       "size": "~30GB",
@@ -292,7 +292,7 @@
       "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003416 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "RBPL2": {
-      "name": "Reproducible Brain Phantoms Library 2",
+      "name": "The Reading Brain Project L2 Adults",
       "category": "openneuro",
       "description": "Brain phantom dataset for reproducibility studies",
       "size": "~35GB",

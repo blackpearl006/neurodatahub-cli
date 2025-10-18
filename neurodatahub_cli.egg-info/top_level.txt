@@ -1,4 +1,4 @@
-build
+conda-recipe
 data
 dist
 docs

@@ -7,14 +7,15 @@
   <img src="https://img.shields.io/pypi/dm/neurodatahub-cli" alt="Downloads">
 </div>
 
-A command-line interface for downloading neuroimaging datasets with ease! Access over 30 popular neuroimaging datasets from various sources including INDI, OpenNeuro, ReproBrainChart, and more.
+A command-line interface for downloading neuroimaging datasets and brain atlases with ease! Access 39 popular neuroimaging datasets from various sources (INDI, OpenNeuro, ReproBrainChart, IDA-LONI) and 10 curated brain atlases for network analysis.
 
-🌐 **Homepage**: https://blackpearl006.github.io/NeuroDataHub/  
+🌐 **Homepage**: https://blackpearl006.github.io/NeuroDataHub/
 📦 **Repository**: https://github.com/blackpearl006/neurodatahub-cli
 
 ## Features
 
-- 🗂️ **30+ Datasets**: Access popular neuroimaging datasets from multiple sources
+- 🗂️ **39 Datasets**: Access popular neuroimaging datasets from multiple sources (87% with metadata)
+- 🧠 **10 Brain Atlases**: Curated atlases from BrainGraph (AAL90, Glasser360, Power264, etc.)
 - 🔍 **Smart Search**: Find datasets by name, description, or category
 - 🚀 **Multiple Backends**: Supports AWS CLI, aria2c, DataLad, and more
 - 🔐 **Authentication Support**: Handles various authentication workflows
@@ -22,6 +23,7 @@ A command-line interface for downloading neuroimaging datasets with ease! Access
 - ⚡ **Resume Support**: Interrupted downloads can be resumed
 - 🛡️ **Dependency Checking**: Validates required tools with helpful installation guidance
 - 🎯 **Filtering**: Filter datasets by category, authentication requirements, size, etc.
+- 📁 **Organized Output**: Separate anat/ and metadata/ folders for datasets
 
 ## Quick Start
 
@@ -31,8 +33,8 @@ A command-line interface for downloading neuroimaging datasets with ease! Access
 # Via pip
 pip install neurodatahub-cli
 
-# Via conda
-conda install -c conda-forge neurodatahub-cli
+# Via conda (coming soon - Windows compatibility in progress)
+# conda install -c conda-forge neurodatahub-cli
 ```
 
 ### Basic Usage
@@ -48,10 +50,32 @@ neurodatahub search "brain development"
 neurodatahub info HBN
 
 # Download a dataset
-neurodatahub pull HBN --path ./data/HBN
+neurodatahub --pull HBN --path ./data/HBN
 
 # Check system dependencies
 neurodatahub check
+```
+
+### Brain Atlas Commands
+
+```bash
+# List all available atlases
+neurodatahub atlas list
+
+# Filter atlases by type
+neurodatahub atlas list --type functional
+
+# Get detailed atlas information
+neurodatahub atlas info HCP_MMP_GLASSER_360
+
+# Download a specific atlas
+neurodatahub atlas download AAL90 --path ./atlases
+
+# Download all atlases
+neurodatahub atlas download-all --path ./all_atlases
+
+# Show attribution information
+neurodatahub atlas attribution
 ```
 
 ## Dataset Categories
