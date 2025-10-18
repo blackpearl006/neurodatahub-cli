@@ -19,17 +19,21 @@
       "auth_required": false,
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/CORR/RawDataBIDS/ . --exclude \"*\" --include \"*/sub-*/ses-*/anat/*\"",
-      "website": "http://fcon_1000.projects.nitrc.org/indi/CoRR/html/index.html"
+      "website": "http://fcon_1000.projects.nitrc.org/indi/CoRR/html/index.html",
+      "metadata_urls": [
+        "https://fcon_1000.projects.nitrc.org/indi/CoRR/Data/PhenotypicData/CoRR_AggregatedPhenotypicData.csv"
+      ]
     },
     "FCON1000": {
       "name": "1000 Functional Connectomes Project",
       "category": "indi",
-      "description": "Large-scale resting-state fMRI dataset",
+      "description": "Large-scale resting-state fMRI dataset. Note: Each subdirectory contains participants.tsv, participants.json, and dataset_description.json",
       "size": "~1TB",
       "auth_required": false,
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/FCON1000/ .",
-      "website": "http://fcon_1000.projects.nitrc.org/"
+      "website": "http://fcon_1000.projects.nitrc.org/",
+      "metadata_note": "BIDS metadata files (participants.tsv, participants.json, dataset_description.json) are located in each subdirectory at https://fcp-indi.s3.amazonaws.com/data/Projects/FCON1000/"
     },
     "ADHD200": {
       "name": "ADHD-200 Competition",
@@ -42,14 +46,15 @@
       "website": "http://fcon_1000.projects.nitrc.org/indi/adhd200/"
     },
     "BGSP": {
-      "name": "Beijing Growth and Stability Project",
+      "name": "Brain Genomics Superstruct Project (GSP)",
       "category": "indi",
-      "description": "Longitudinal developmental neuroimaging study",
+      "description": "Large-scale genomics and neuroimaging study. Note: Apply for labels/metadata through Harvard Dataverse (https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/25833) or IDA-LONI",
       "size": "~300GB",
       "auth_required": false,
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/BGSP/ .",
-      "website": "http://fcon_1000.projects.nitrc.org/"
+      "website": "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/25833",
+      "metadata_note": "Labels/metadata must be obtained separately through Harvard Dataverse or IDA-LONI"
     },
     "NKI": {
       "name": "Nathan Kline Institute - Rockland Sample",
@@ -59,7 +64,10 @@
       "auth_required": false,
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/RocklandSample/ .",
-      "website": "http://fcon_1000.projects.nitrc.org/indi/pro/nki.html"
+      "website": "http://fcon_1000.projects.nitrc.org/indi/pro/nki.html",
+      "metadata_urls": [
+        "https://fcp-indi.s3.amazonaws.com/data/Projects/RocklandSample/RawDataBIDSLatest/participants.tsv"
+      ]
     },
     "SLIM": {
       "name": "Southwest University Longitudinal Imaging Multimodal Brain Data",
@@ -69,7 +77,13 @@
       "auth_required": false,
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/SLIM/ .",
-      "website": "http://fcon_1000.projects.nitrc.org/"
+      "website": "http://fcon_1000.projects.nitrc.org/",
+      "metadata_urls": [
+        "https://fcon_1000.projects.nitrc.org/indi/retro/swu_slim_content/swu_slim_phenodata_time1.tsv",
+        "https://fcon_1000.projects.nitrc.org/indi/retro/swu_slim_content/swu_slim_phenodata_time2.tsv",
+        "https://fcon_1000.projects.nitrc.org/indi/retro/swu_slim_content/swu_slim_phenodata_time3.tsv",
+        "https://fcon_1000.projects.nitrc.org/indi/retro/swu_slim_content/swu_slim_addphenodata.tar.gz"
+      ]
     },
     "ATLAS": {
       "name": "ATLAS.R - Adult Lifespan Connectome Project",
@@ -89,7 +103,10 @@
       "auth_required": false,
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/DLBS/ .",
-      "website": "http://fcon_1000.projects.nitrc.org/"
+      "website": "http://fcon_1000.projects.nitrc.org/",
+      "metadata_urls": [
+        "https://fcon_1000.projects.nitrc.org/indi/retro/dlbs_content/dlbs_cogdata.tar.gz"
+      ]
     },
     "MPI-LEMON": {
       "name": "Leipzig Study for Mind-Body-Emotion Interactions",
@@ -99,7 +116,60 @@
       "auth_required": false,
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/LEMON/ .",
-      "website": "http://fcon_1000.projects.nitrc.org/"
+      "website": "http://fcon_1000.projects.nitrc.org/",
+      "metadata_urls": [
+        "https://fcp-indi.s3.amazonaws.com/data/Projects/INDI/MPI-LEMON/Compressed_tar/Behavioural_Data_MPILMBB_LEMON.tar.gz"
+      ]
+    },
+    "SALD": {
+      "name": "Southwest University Adult Lifespan Dataset",
+      "category": "indi",
+      "description": "Adult lifespan neuroimaging dataset from Southwest University",
+      "size": "~300GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/SALD/ .",
+      "website": "https://fcon_1000.projects.nitrc.org/indi/retro/SALD/",
+      "metadata_urls": [
+        "https://fcon_1000.projects.nitrc.org/indi/retro/SALD/sub_information.xlsx"
+      ]
+    },
+    "ABIDE2": {
+      "name": "Autism Brain Imaging Data Exchange II",
+      "category": "indi",
+      "description": "Multi-site neuroimaging dataset for autism research",
+      "size": "~500GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/ABIDE2/ .",
+      "website": "http://fcon_1000.projects.nitrc.org/indi/abide/abide_II.html",
+      "metadata_note": "Multiple phenotypic data files available at https://fcon_1000.projects.nitrc.org/indi/abide2/release/phenotypic_data/"
+    },
+    "YALE_LOWRES": {
+      "name": "Yale Test-Retest Dataset - Low Resolution",
+      "category": "indi",
+      "description": "Test-retest reliability dataset with low resolution scans",
+      "size": "~50GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/Yale/ . --exclude \"*\" --include \"*lowres*\"",
+      "website": "https://fcon_1000.projects.nitrc.org/indi/retro/Yale_Constable/",
+      "metadata_urls": [
+        "https://fcon_1000.projects.nitrc.org/indi/retro/Yale_Constable/demographics_lowres.csv"
+      ]
+    },
+    "YALE_HIGHRES": {
+      "name": "Yale Test-Retest Dataset - High Resolution",
+      "category": "indi",
+      "description": "Test-retest reliability dataset with high resolution scans",
+      "size": "~100GB",
+      "auth_required": false,
+      "download_method": "aws_s3",
+      "base_command": "aws s3 sync --no-sign-request s3://fcp-indi/data/Projects/Yale/ . --exclude \"*\" --include \"*highres*\"",
+      "website": "https://fcon_1000.projects.nitrc.org/indi/retro/Yale_Constable/",
+      "metadata_urls": [
+        "https://fcon_1000.projects.nitrc.org/indi/retro/Yale_Constable/demographics_highres.csv"
+      ]
     },
     "AOMIC_PIOP1": {
       "name": "Amsterdam Open MRI Collection - PIOP1",
@@ -110,7 +180,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003097 . --exclude \"*\" --include \"sub-*/anat/*T1w*\"",
       "website": "https://openneuro.org/datasets/ds003097",
-      "openneuro_id": "ds003097"
+      "openneuro_id": "ds003097",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003097 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "AOMIC_PIOP2": {
       "name": "Amsterdam Open MRI Collection - PIOP2",
@@ -121,7 +192,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003018 . --exclude \"*\" --include \"sub-*/anat/*T1w*\"",
       "website": "https://openneuro.org/datasets/ds003018",
-      "openneuro_id": "ds003018"
+      "openneuro_id": "ds003018",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003018 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "AOMIC_ID1000": {
       "name": "Amsterdam Open MRI Collection - ID1000",
@@ -132,7 +204,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003834 . --exclude \"*\" --include \"sub-*/anat/*T1w*\"",
       "website": "https://openneuro.org/datasets/ds003834",
-      "openneuro_id": "ds003834"
+      "openneuro_id": "ds003834",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003834 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "MPI": {
       "name": "Max Planck Institute Leipzig Mind-Brain-Body",
@@ -143,7 +216,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003505 . --exclude \"*\" --include \"sub-*/anat/*T1w*\"",
       "website": "https://openneuro.org/datasets/ds003505",
-      "openneuro_id": "ds003505"
+      "openneuro_id": "ds003505",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003505 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "DENSE_F": {
       "name": "Dense sampling of single subject - Female",
@@ -154,7 +228,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds002785 .",
       "website": "https://openneuro.org/datasets/ds002785",
-      "openneuro_id": "ds002785"
+      "openneuro_id": "ds002785",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds002785 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "DENSE_M": {
       "name": "Dense sampling of single subject - Male",
@@ -165,7 +240,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds002790 .",
       "website": "https://openneuro.org/datasets/ds002790",
-      "openneuro_id": "ds002790"
+      "openneuro_id": "ds002790",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds002790 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "Pixar": {
       "name": "Pixar movie watching dataset",
@@ -176,7 +252,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003643 .",
       "website": "https://openneuro.org/datasets/ds003643",
-      "openneuro_id": "ds003643"
+      "openneuro_id": "ds003643",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003643 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "Lexical": {
       "name": "Lexical decision task dataset",
@@ -187,7 +264,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003474 .",
       "website": "https://openneuro.org/datasets/ds003474",
-      "openneuro_id": "ds003474"
+      "openneuro_id": "ds003474",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003474 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "NPC": {
       "name": "Naturalistic Paradigm Consortium",
@@ -198,7 +276,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003837 .",
       "website": "https://openneuro.org/datasets/ds003837",
-      "openneuro_id": "ds003837"
+      "openneuro_id": "ds003837",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003837 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "RBPL1": {
       "name": "Reproducible Brain Phantoms Library 1",
@@ -209,7 +288,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003416 .",
       "website": "https://openneuro.org/datasets/ds003416",
-      "openneuro_id": "ds003416"
+      "openneuro_id": "ds003416",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003416 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "RBPL2": {
       "name": "Reproducible Brain Phantoms Library 2",
@@ -220,7 +300,8 @@
       "download_method": "aws_s3",
       "base_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003417 .",
       "website": "https://openneuro.org/datasets/ds003417",
-      "openneuro_id": "ds003417"
+      "openneuro_id": "ds003417",
+      "metadata_command": "aws s3 sync --no-sign-request s3://openneuro.org/ds003417 . --exclude \"*\" --include \"*.tsv\" --include \"*.json\""
     },
     "IXI": {
       "name": "Information eXtraction from Images",
@@ -230,7 +311,10 @@
       "auth_required": false,
       "download_method": "aria2c",
       "base_command": "aria2c -x 10 -j 10 -s 10 http://biomedic.doc.ic.ac.uk/brain-development/downloads/IXI/IXI-T1.tar",
-      "website": "http://brain-development.org/ixi-dataset/"
+      "website": "http://brain-development.org/ixi-dataset/",
+      "metadata_urls": [
+        "http://biomedic.doc.ic.ac.uk/brain-development/downloads/IXI/IXI.xls"
+      ]
     },
     "OASIS1": {
       "name": "Open Access Series of Imaging Studies 1",
@@ -240,7 +324,10 @@
       "auth_required": false,
       "download_method": "aria2c",
       "base_command": "multiple_aria2c_downloads",
-      "website": "https://www.oasis-brains.org/"
+      "website": "https://www.oasis-brains.org/",
+      "metadata_urls": [
+        "https://sites.wustl.edu/oasisbrains/files/2024/04/oasis_cross-sectional-5708aa0a98d82080.xlsx"
+      ]
     },
     "OASIS2": {
       "name": "Open Access Series of Imaging Studies 2",
@@ -250,7 +337,10 @@
       "auth_required": false,
       "download_method": "aria2c",
       "base_command": "multiple_aria2c_downloads",
-      "website": "https://www.oasis-brains.org/"
+      "website": "https://www.oasis-brains.org/",
+      "metadata_urls": [
+        "https://sites.wustl.edu/oasisbrains/files/2024/03/oasis_longitudinal_demographics-8d83e569fa2e2d30.xlsx"
+      ]
     },
     "HCP_1200": {
       "name": "Human Connectome Project - 1200 Subjects Release",
@@ -281,7 +371,14 @@
       "download_method": "datalad",
       "base_command": "git clone https://github.com/ReproBrainChart/PNC_BIDS.git && datalad clone https://github.com/ReproBrainChart/PNC_BIDS.git -b complete-pass-0.1 && datalad get *",
       "website": "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000607.v3.p2",
-      "repository": "https://github.com/ReproBrainChart/PNC_BIDS"
+      "repository": "https://github.com/ReproBrainChart/PNC_BIDS",
+      "metadata_files": [
+        "study-PNC_desc-CuBIDS_summary.tsv",
+        "study-PNC_desc-participants.json",
+        "study-PNC_desc-participants.tsv",
+        "study-PNC_desc-T1_qc.json",
+        "study-PNC_desc-T1_qc.tsv"
+      ]
     },
     "BHRC": {
       "name": "Brain Health Registry Cohort",
@@ -292,7 +389,14 @@
       "download_method": "datalad",
       "base_command": "git clone https://github.com/ReproBrainChart/BHRC_BIDS.git && datalad clone https://github.com/ReproBrainChart/BHRC_BIDS.git && datalad get *",
       "website": "https://brainhealthregistry.org/",
-      "repository": "https://github.com/ReproBrainChart/BHRC_BIDS"
+      "repository": "https://github.com/ReproBrainChart/BHRC_BIDS",
+      "metadata_files": [
+        "study-BHRC_desc-CuBIDS_summary.tsv",
+        "study-BHRC_desc-participants.json",
+        "study-BHRC_desc-participants.tsv",
+        "study-BHRC_desc-T1_qc.json",
+        "study-BHRC_desc-T1_qc.tsv"
+      ]
     },
     "CCNP": {
       "name": "Chinese Color Nest Project",
@@ -303,7 +407,11 @@
       "download_method": "datalad",
       "base_command": "git clone https://github.com/ReproBrainChart/CCNP_BIDS.git && datalad clone https://github.com/ReproBrainChart/CCNP_BIDS.git && datalad get *",
       "website": "http://ccnp.scidb.cn/",
-      "repository": "https://github.com/ReproBrainChart/CCNP_BIDS"
+      "repository": "https://github.com/ReproBrainChart/CCNP_BIDS",
+      "metadata_files": [
+        "study-CCNP_desc-participants.tsv",
+        "study-CCNP_desc-participants.json"
+      ]
     },
     "ADNI": {
       "name": "Alzheimer's Disease Neuroimaging Initiative",
@@ -314,7 +422,8 @@
       "download_method": "ida_loni",
       "base_command": "ida_interactive_flow",
       "website": "https://adni.loni.usc.edu/",
-      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=ADNI"
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=ADNI",
+      "metadata_note": "After creating your image collection in Advanced Search (with Display in Results: Research Group, Field Strength, Acquisition Plane, Acquisition Type, Modality, Weighting checked), click the 'ALL' checkbox in the right panel, then click 'CSV' button to download metadata. For ADNI, use Image Description: 'MPRAGE' OR 'MP-RAGE' OR 'MP RAGE' to avoid duplicates. Place the downloaded CSV file in the metadata/ folder."
     },
     "AIBL": {
       "name": "Australian Imaging Biomarkers and Lifestyle",
@@ -325,7 +434,8 @@
       "download_method": "ida_loni",
       "base_command": "ida_interactive_flow",
       "website": "https://aibl.csiro.au/",
-      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=AIBL"
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=AIBL",
+      "metadata_note": "After creating your image collection in Advanced Search (with Display in Results: Research Group, Field Strength, Acquisition Plane, Acquisition Type, Modality, Weighting checked), click the 'ALL' checkbox in the right panel, then click 'CSV' button to download metadata. Place the downloaded CSV file in the metadata/ folder."
     },
     "MCSA": {
       "name": "Mayo Clinic Study of Aging",
@@ -336,7 +446,8 @@
       "download_method": "ida_loni",
       "base_command": "ida_interactive_flow",
       "website": "https://www.mayo.edu/research/departments-divisions/epidemiology/research/aging-dementia",
-      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=MCSA"
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=MCSA",
+      "metadata_note": "After creating your image collection in Advanced Search (with Display in Results: Research Group, Field Strength, Acquisition Plane, Acquisition Type, Modality, Weighting checked), click the 'ALL' checkbox in the right panel, then click 'CSV' button to download metadata. Place the downloaded CSV file in the metadata/ folder."
     },
     "PPMI": {
       "name": "Parkinson's Progression Markers Initiative",
@@ -347,7 +458,8 @@
       "download_method": "ida_loni",
       "base_command": "ida_interactive_flow",
       "website": "https://www.ppmi-info.org/",
-      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=PPMI"
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=PPMI",
+      "metadata_note": "After creating your image collection in Advanced Search (with Display in Results: Research Group, Field Strength, Acquisition Plane, Acquisition Type, Modality, Weighting checked), click the 'ALL' checkbox in the right panel, then click 'CSV' button to download metadata. Place the downloaded CSV file in the metadata/ folder."
     },
     "ICBM": {
       "name": "International Consortium for Brain Mapping",
@@ -358,7 +470,8 @@
       "download_method": "ida_loni",
       "base_command": "ida_interactive_flow",
       "website": "http://www.loni.usc.edu/ICBM/",
-      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=ICBM"
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=ICBM",
+      "metadata_note": "After creating your image collection in Advanced Search (with Display in Results: Research Group, Field Strength, Acquisition Plane, Acquisition Type, Modality, Weighting checked), click the 'ALL' checkbox in the right panel, then click 'CSV' button to download metadata. Place the downloaded CSV file in the metadata/ folder."
     },
     "LASI": {
       "name": "Longitudinal Aging Study in India",
@@ -369,7 +482,8 @@
       "download_method": "ida_loni",
       "base_command": "ida_interactive_flow",
       "website": "https://www.isr.umich.edu/lasi/",
-      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=LASI"
+      "ida_url": "https://ida.loni.usc.edu/login.jsp?project=LASI",
+      "metadata_note": "After creating your image collection in Advanced Search (with Display in Results: Research Group, Field Strength, Acquisition Plane, Acquisition Type, Modality, Weighting checked), click the 'ALL' checkbox in the right panel, then click 'CSV' button to download metadata. Place the downloaded CSV file in the metadata/ folder."
     }
   },
   "categories": {
@@ -408,27 +522,39 @@
     "aws_s3": {
       "name": "AWS S3",
       "description": "Download using AWS CLI with no-sign-request",
-      "dependencies": ["awscli"]
+      "dependencies": [
+        "awscli"
+      ]
     },
     "aria2c": {
       "name": "Aria2",
       "description": "Fast parallel downloader",
-      "dependencies": ["aria2c"]
+      "dependencies": [
+        "aria2c"
+      ]
     },
     "datalad": {
       "name": "DataLad",
       "description": "Git-based data management",
-      "dependencies": ["git", "datalad"]
+      "dependencies": [
+        "git",
+        "datalad"
+      ]
     },
     "ida_loni": {
       "name": "IDA-LONI Interactive",
       "description": "Interactive authentication workflow for IDA-LONI datasets",
-      "dependencies": ["aria2c", "firefox"]
+      "dependencies": [
+        "aria2c",
+        "firefox"
+      ]
     },
     "aws_credentials": {
       "name": "AWS with Credentials",
       "description": "Download using AWS CLI with user credentials",
-      "dependencies": ["awscli"]
+      "dependencies": [
+        "awscli"
+      ]
     },
     "special": {
       "name": "Special Procedure",

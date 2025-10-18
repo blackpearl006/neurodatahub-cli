@@ -118,37 +118,53 @@ class DatasetManager:
         table.add_column("Category", justify="center")
         table.add_column("Size", justify="center")
         table.add_column("Auth", justify="center")
-        
+        table.add_column("Metadata", justify="center")
+
         if detailed:
             table.add_column("Description", style="dim")
-        
+
         for dataset_id, dataset in sorted(datasets.items()):
             name = dataset.get('name', 'Unknown')
             category = dataset.get('category', 'unknown').upper()
             size = dataset.get('size', 'Unknown')
             auth_required = dataset.get('auth_required', False)
             description = dataset.get('description', '')
-            
+
+            # Check if metadata is available
+            has_metadata_urls = bool(dataset.get('metadata_urls'))
+            has_metadata_files = bool(dataset.get('metadata_files'))
+            has_metadata_note = bool(dataset.get('metadata_note'))
+            has_metadata_command = bool(dataset.get('metadata_command'))
+            has_metadata = has_metadata_urls or has_metadata_files or has_metadata_note or has_metadata_command
+
             auth_text = "[red]Yes[/red]" if auth_required else "[green]No[/green]"
-            
-            row = [dataset_id, name, category, size, auth_text]
+            metadata_text = "[green]✓[/green]" if has_metadata else "[red]✗[/red]"
+
+            row = [dataset_id, name, category, size, auth_text, metadata_text]
             if detailed:
                 # Truncate description for table display
                 desc_short = (description[:50] + "...") if len(description) > 53 else description
                 row.append(desc_short)
-            
+
             table.add_row(*row)
         
         console.print(table)
-        
+
         # Display summary
         total = len(datasets)
         auth_required = len([d for d in datasets.values() if d.get('auth_required', False)])
         no_auth = total - auth_required
-        
+
+        # Count datasets with metadata
+        with_metadata = len([d for d in datasets.values()
+                           if d.get('metadata_urls') or d.get('metadata_files') or d.get('metadata_note') or d.get('metadata_command')])
+        without_metadata = total - with_metadata
+
         console.print(f"\n[dim]Total: {total} datasets | "
-                     f"No auth required: {no_auth} | "
-                     f"Auth required: {auth_required}[/dim]")
+                     f"No auth: {no_auth} | "
+                     f"Auth required: {auth_required} | "
+                     f"With metadata: [green]{with_metadata}[/green] | "
+                     f"Without metadata: [red]{without_metadata}[/red][/dim]")
     
     def display_categories_table(self):
         """Display available categories in a formatted table."""

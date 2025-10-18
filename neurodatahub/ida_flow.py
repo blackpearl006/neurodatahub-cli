@@ -164,30 +164,60 @@ Each dataset on IDA-LONI requires separate DUA approval:
     
     def _check_step_3(self) -> bool:
         """Check image collection creation."""
-        display_info("Step 3: Image Collection")
-        
+        display_info("ℹ Step 3: Image Collection - CRITICAL SETUP REQUIRED")
+
         collection_info = """
+[bold red]!!!!!! IMPORTANT STEP !!!!![/bold red]
 You need to create an image collection in IDA-LONI:
 
-1. Log in to IDA-LONI
-2. Navigate to your approved dataset
-3. Select the images/scans you want to download
-4. Create a new collection with selected images
-5. Save the collection for downloading
+[bold cyan]1. Log in to IDA-LONI[/bold cyan]
+[bold cyan]2. Navigate to your approved dataset[/bold cyan]
+[bold cyan]3. Go to "Advanced Search"[/bold cyan]
+
+[bold yellow]4. MANDATORY: In "Display in Results" column, CHECK these fields:[/bold yellow]
+   [green]☑[/green] Research Group
+   [green]☑[/green] Field Strength (Tesla)
+   [green]☑[/green] Acquisition Plane
+   [green]☑[/green] Acquisition Type
+   [green]☑[/green] Modality
+   [green]☑[/green] Weighting
+
+   [yellow]NOTE: These fields MUST be displayed to be included in the metadata CSV![/yellow]
+
+[bold cyan]5. Recommended search filters for beginners (T1-weighted structural MRI):[/bold cyan]
+   • Modality: MRI
+   • Acquisition Plane: SAGITTAL
+   • Acquisition Type: 3D
+   • Weighting: T1
+
+[bold cyan]6. FOR ADNI SPECIFICALLY - Filter by Image Description to avoid duplicates:[/bold cyan]
+   Search for "MPRAGE" OR "MP-RAGE" OR "MP RAGE" (3 variations exist)
+   This ensures one scan per subject (MPRAGE has highest subject coverage)
+
+[bold cyan]7. Sanity check for ADNI:[/bold cyan]
+   Healthy/CN (Cognitively Normal) + Sagittal + 3D + Age >50
+   Should return 2000+ images
+
+[bold cyan]8. Create collection with selected images[/bold cyan]
+
+[bold yellow]9. DOWNLOAD METADATA:[/bold yellow]
+   • Check "ALL" checkbox in the right panel
+   • Click the "CSV" button under "Collection: [Your Collection Name]"
+   • Save this CSV file - you'll need to manually place it in the metadata/ folder
 """
-        
+
         console.print(Panel(collection_info, title="Collection Setup", border_style="green"))
-        
+
         if get_confirmation("Have you created an image collection for this dataset?"):
             display_success("[✓] Image collection confirmed")
             return True
-        
-        display_info("Please log in to IDA-LONI and create your image collection")
-        
+
+        display_info("Please log in to IDA-LONI and create your image collection following the steps above")
+
         if get_confirmation("Have you now created an image collection?"):
             display_success("[✓] Image collection confirmed")
             return True
-        
+
         display_error("Image collection is required to generate download links")
         return False
     
@@ -325,11 +355,18 @@ Paste your download URL"""
         completion_msg = f"""
 [bold green][✓] Download completed successfully![/bold green]
 
+[bold]Files downloaded to:[/bold]
+📁 {self.target_path}/
+   ├── anat/         [cyan](anatomical MRI images)[/cyan]
+   └── metadata/     [yellow](place your CSV metadata file here)[/yellow]
+
 [bold]Next steps:[/bold]
-1. Verify downloaded files in: {self.target_path}
-2. Check file integrity if checksums were provided
-3. Follow dataset-specific processing instructions
-4. Review data usage terms from your DUA
+1. Verify downloaded files in: {self.target_path}/anat/
+2. [yellow]IMPORTANT:[/yellow] Manually place the CSV metadata file you downloaded from IDA-LONI
+   into: {self.target_path}/metadata/
+3. Check file integrity if checksums were provided
+4. Follow dataset-specific processing instructions
+5. Review data usage terms from your DUA
 
 [bold]Data Usage Reminder:[/bold]
 * Use data only as approved in your DUA
@@ -339,7 +376,7 @@ Paste your download URL"""
 
 [dim]Thank you for using NeuroDataHub CLI![/dim]
 """
-        
+
         console.print(Panel(completion_msg, title="Download Complete", border_style="green"))
     
     def _display_failure_message(self):

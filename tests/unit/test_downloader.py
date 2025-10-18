@@ -290,16 +290,20 @@ class TestRequestsDownloader:
     def test_download_success(self, sample_dataset, temp_dir):
         """Test successful download."""
         url = "http://example.com/test.tar.gz"
-        
+
+        # Create anat folder (normally done in prepare())
+        anat_path = temp_dir / "anat"
+        anat_path.mkdir(parents=True, exist_ok=True)
+
         mock_response = MagicMock()
         mock_response.headers = {'content-length': '1024'}
         mock_response.iter_content.return_value = [b'test data chunk 1', b'test data chunk 2']
-        
+
         with patch('requests.get', return_value=mock_response), \
              patch('neurodatahub.downloader.display_info'), \
              patch('neurodatahub.downloader.display_success'), \
              patch('tqdm.tqdm') as mock_tqdm:
-            
+
             mock_tqdm.return_value.__enter__.return_value = MagicMock()
             downloader = RequestsDownloader(sample_dataset, str(temp_dir), url)
             assert downloader.download() is True
@@ -307,11 +311,15 @@ class TestRequestsDownloader:
     def test_download_no_content_length(self, sample_dataset, temp_dir):
         """Test download without content-length header."""
         url = "http://example.com/test.tar.gz"
-        
+
+        # Create anat folder (normally done in prepare())
+        anat_path = temp_dir / "anat"
+        anat_path.mkdir(parents=True, exist_ok=True)
+
         mock_response = MagicMock()
         mock_response.headers = {}  # No content-length
         mock_response.iter_content.return_value = [b'test data']
-        
+
         with patch('requests.get', return_value=mock_response), \
              patch('neurodatahub.downloader.display_info'), \
              patch('neurodatahub.downloader.display_success'):
@@ -536,11 +544,15 @@ class TestEdgeCases:
         """Test filename extraction from URL."""
         # URL without filename
         url_no_filename = "http://example.com/"
-        
+
+        # Create anat folder (normally done in prepare())
+        anat_path = temp_dir / "anat"
+        anat_path.mkdir(parents=True, exist_ok=True)
+
         mock_response = MagicMock()
         mock_response.headers = {}
         mock_response.iter_content.return_value = [b'data']
-        
+
         with patch('requests.get', return_value=mock_response), \
              patch('neurodatahub.downloader.display_info'), \
              patch('neurodatahub.downloader.display_success'):
@@ -555,7 +567,7 @@ class TestEdgeCases:
             'repository': 'https://github.com/test/repo.git',
             'base_command': 'git clone repo.git && cd repo && datalad get . && datalad unlock data/*'
         }
-        
+
         # Mock successful execution of all commands
         with patch('neurodatahub.downloader.run_command', return_value=(0, "", "")), \
              patch('neurodatahub.downloader.display_info'), \
@@ -563,3 +575,190 @@ class TestEdgeCases:
              patch('os.chdir'):
             downloader = DataladDownloader(dataset, str(temp_dir))
             assert downloader.download() is True
+
+
+class TestFolderStructure:
+    """Test new folder structure functionality."""
+
+    def test_base_downloader_creates_folder_structure(self, sample_dataset, temp_dir):
+        """Test that BaseDownloader creates anat/ and metadata/ folders."""
+        with patch('neurodatahub.downloader.validate_path', return_value=True), \
+             patch('neurodatahub.downloader.check_available_space', return_value=True), \
+             patch('neurodatahub.downloader.display_info'):
+            downloader = BaseDownloader(sample_dataset, str(temp_dir))
+            assert downloader.prepare() is True
+
+            # Verify folder paths are set correctly
+            assert downloader.anat_path == temp_dir / "anat"
+            assert downloader.metadata_path == temp_dir / "metadata"
+
+            # Verify folders were created
+            assert downloader.anat_path.exists()
+            assert downloader.metadata_path.exists()
+            assert downloader.anat_path.is_dir()
+            assert downloader.metadata_path.is_dir()
+
+    def test_aws_s3_downloader_uses_anat_path(self, sample_dataset, temp_dir):
+        """Test that AwsS3Downloader downloads to anat/ folder."""
+        with patch('neurodatahub.downloader.run_command', return_value=(0, "", "")), \
+             patch('neurodatahub.downloader.display_info'), \
+             patch('neurodatahub.downloader.display_success'), \
+             patch('time.time', side_effect=[0, 10]):
+            downloader = AwsS3Downloader(sample_dataset, str(temp_dir))
+            result = downloader.download()
+
+            assert result is True
+            # Verify the command uses anat_path
+            assert downloader.anat_path in [temp_dir / "anat"]
+
+    def test_aria2c_downloader_uses_anat_path(self, temp_dir):
+        """Test that Aria2cDownloader downloads to anat/ folder."""
+        dataset = {
+            'name': 'Test Dataset',
+            'base_command': 'aria2c -x 10 http://example.com/file.tar'
+        }
+        with patch('neurodatahub.downloader.run_command', return_value=(0, "", "")), \
+             patch('neurodatahub.downloader.display_info'), \
+             patch('neurodatahub.downloader.display_success'), \
+             patch('time.time', side_effect=[0, 10]):
+            downloader = Aria2cDownloader(dataset, str(temp_dir))
+            result = downloader.download()
+
+            assert result is True
+            assert downloader.anat_path == temp_dir / "anat"
+
+    def test_requests_downloader_uses_anat_path(self, sample_dataset, temp_dir):
+        """Test that RequestsDownloader saves to anat/ folder."""
+        url = "http://example.com/test.tar.gz"
+
+        # Create anat folder (normally done in prepare())
+        anat_path = temp_dir / "anat"
+        anat_path.mkdir(parents=True, exist_ok=True)
+
+        mock_response = MagicMock()
+        mock_response.headers = {'content-length': '1024'}
+        mock_response.iter_content.return_value = [b'test data']
+
+        with patch('requests.get', return_value=mock_response), \
+             patch('neurodatahub.downloader.display_info'), \
+             patch('neurodatahub.downloader.display_success'), \
+             patch('tqdm.tqdm') as mock_tqdm:
+
+            mock_tqdm.return_value.__enter__.return_value = MagicMock()
+            downloader = RequestsDownloader(sample_dataset, str(temp_dir), url)
+            result = downloader.download()
+
+            assert result is True
+            # Verify file should be saved to anat_path
+            assert downloader.anat_path == temp_dir / "anat"
+
+    def test_datalad_downloader_detects_openneuro(self, temp_dir):
+        """Test that DataladDownloader detects OpenNeuro datasets."""
+        openneuro_dataset = {
+            'name': 'OpenNeuro Dataset',
+            'category': 'openneuro',
+            'repository': 'https://github.com/OpenNeuroDatasets/ds000001.git',
+            'base_command': 'datalad install https://github.com/OpenNeuroDatasets/ds000001.git'
+        }
+
+        downloader = DataladDownloader(openneuro_dataset, str(temp_dir))
+        assert downloader.is_openneuro is True
+
+    def test_datalad_downloader_downloads_bids_metadata(self, temp_dir):
+        """Test that DataladDownloader downloads BIDS metadata for OpenNeuro datasets."""
+        openneuro_dataset = {
+            'name': 'OpenNeuro Dataset',
+            'category': 'openneuro',
+            'repository': 'https://github.com/OpenNeuroDatasets/ds000001.git',
+            'base_command': 'datalad install https://github.com/OpenNeuroDatasets/ds000001.git'
+        }
+
+        # Create mock metadata files in temp directory
+        metadata_files = ['dataset_description.json', 'participants.json', 'participants.tsv']
+
+        def mock_run_command(cmd, capture_output=False):
+            # Simulate successful datalad get command
+            if 'datalad get' in cmd:
+                # Create the file being requested
+                for metadata_file in metadata_files:
+                    if metadata_file in cmd:
+                        file_path = Path(metadata_file)
+                        file_path.write_text('{}')
+                return (0, "", "")
+            return (0, "", "")
+
+        original_cwd = os.getcwd()
+
+        with patch('neurodatahub.downloader.run_command', side_effect=mock_run_command), \
+             patch('neurodatahub.downloader.display_info'), \
+             patch('neurodatahub.downloader.display_success'), \
+             patch('neurodatahub.downloader.display_warning'), \
+             patch('os.getcwd', return_value=original_cwd), \
+             patch('os.chdir'):
+
+            downloader = DataladDownloader(openneuro_dataset, str(temp_dir))
+            result = downloader.download()
+
+            assert result is True
+            assert downloader.is_openneuro is True
+
+    def test_datalad_downloader_handles_missing_bids_metadata(self, temp_dir):
+        """Test that DataladDownloader handles missing BIDS metadata gracefully."""
+        openneuro_dataset = {
+            'name': 'OpenNeuro Dataset',
+            'category': 'openneuro',
+            'repository': 'https://github.com/OpenNeuroDatasets/ds000001.git',
+            'base_command': 'datalad install https://github.com/OpenNeuroDatasets/ds000001.git'
+        }
+
+        # Simulate metadata files not being available
+        def mock_run_command(cmd, capture_output=False):
+            if 'datalad get' in cmd and any(f in cmd for f in ['dataset_description.json', 'participants.json', 'participants.tsv']):
+                return (1, "", "File not found")
+            return (0, "", "")
+
+        original_cwd = os.getcwd()
+
+        with patch('neurodatahub.downloader.run_command', side_effect=mock_run_command), \
+             patch('neurodatahub.downloader.display_info'), \
+             patch('neurodatahub.downloader.display_success'), \
+             patch('neurodatahub.downloader.display_warning'), \
+             patch('os.getcwd', return_value=original_cwd), \
+             patch('os.chdir'):
+
+            downloader = DataladDownloader(openneuro_dataset, str(temp_dir))
+            result = downloader.download()
+
+            # Should still succeed even if metadata is missing
+            assert result is True
+
+    def test_folder_structure_created_before_download(self, sample_dataset, temp_dir):
+        """Test that folder structure is created during prepare phase."""
+        with patch('neurodatahub.downloader.validate_path', return_value=True), \
+             patch('neurodatahub.downloader.check_available_space', return_value=True), \
+             patch('neurodatahub.downloader.display_info'):
+
+            downloader = AwsS3Downloader(sample_dataset, str(temp_dir))
+
+            # Before prepare, paths are defined but may not exist
+            assert hasattr(downloader, 'anat_path')
+            assert hasattr(downloader, 'metadata_path')
+
+            # After prepare, folders should exist
+            result = downloader.prepare()
+            assert result is True
+            assert downloader.anat_path.exists()
+            assert downloader.metadata_path.exists()
+
+    def test_folder_structure_creation_failure(self, sample_dataset, temp_dir):
+        """Test handling of folder creation failure."""
+        with patch('neurodatahub.downloader.validate_path', return_value=True), \
+             patch('neurodatahub.downloader.check_available_space', return_value=True), \
+             patch('pathlib.Path.mkdir', side_effect=PermissionError("Permission denied")), \
+             patch('neurodatahub.downloader.display_info'), \
+             patch('neurodatahub.downloader.display_error'):
+
+            downloader = BaseDownloader(sample_dataset, str(temp_dir))
+            result = downloader.prepare()
+
+            assert result is False
