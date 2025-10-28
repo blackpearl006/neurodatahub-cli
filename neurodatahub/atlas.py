@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from .utils import display_error, display_info, display_success, display_warning
 
@@ -28,8 +28,8 @@ class AtlasManager:
         # Try to find the atlases.json file
         possible_paths = [
             Path(__file__).parent.parent / "data" / "atlases.json",  # Development
-            Path(__file__).parent / "data" / "atlases.json",         # Installed package
-            Path("data") / "atlases.json"                            # Current directory
+            Path(__file__).parent / "data" / "atlases.json",  # Installed package
+            Path("data") / "atlases.json",  # Current directory
         ]
 
         config_path = None
@@ -43,12 +43,12 @@ class AtlasManager:
             return
 
         try:
-            with open(config_path, 'r', encoding='utf-8') as f:
+            with open(config_path, "r", encoding="utf-8") as f:
                 config = json.load(f)
 
-            self.atlases = config.get('atlases', {})
-            self.metadata = config.get('metadata', {})
-            self.atlas_types = config.get('atlas_types', {})
+            self.atlases = config.get("atlases", {})
+            self.metadata = config.get("metadata", {})
+            self.atlas_types = config.get("atlas_types", {})
 
         except (json.JSONDecodeError, FileNotFoundError) as e:
             display_error(f"Failed to load atlas configuration: {e}")
@@ -57,19 +57,22 @@ class AtlasManager:
         """Get a specific atlas by ID."""
         return self.atlases.get(atlas_id.upper())
 
-    def list_atlases(self, atlas_type: Optional[str] = None,
-                    min_rois: Optional[int] = None,
-                    max_rois: Optional[int] = None) -> Dict[str, Dict]:
+    def list_atlases(
+        self,
+        atlas_type: Optional[str] = None,
+        min_rois: Optional[int] = None,
+        max_rois: Optional[int] = None,
+    ) -> Dict[str, Dict]:
         """List atlases with optional filtering."""
         filtered = {}
 
         for atlas_id, atlas in self.atlases.items():
             # Type filter
-            if atlas_type and atlas.get('atlas_type', '').lower() != atlas_type.lower():
+            if atlas_type and atlas.get("atlas_type", "").lower() != atlas_type.lower():
                 continue
 
             # ROI count filters
-            num_rois = atlas.get('num_rois', 0)
+            num_rois = atlas.get("num_rois", 0)
             if min_rois and num_rois < min_rois:
                 continue
             if max_rois and num_rois > max_rois:
@@ -79,8 +82,9 @@ class AtlasManager:
 
         return filtered
 
-    def display_atlases_table(self, atlases: Optional[Dict[str, Dict]] = None,
-                              detailed: bool = False):
+    def display_atlases_table(
+        self, atlases: Optional[Dict[str, Dict]] = None, detailed: bool = False
+    ):
         """Display atlases in a formatted table."""
         if atlases is None:
             atlases = self.atlases
@@ -101,18 +105,20 @@ class AtlasManager:
             table.add_column("Best For", style="dim")
 
         for atlas_id, atlas in sorted(atlases.items()):
-            name = atlas.get('short_name', atlas.get('name', 'Unknown'))
-            atlas_type = atlas.get('atlas_type', 'unknown')
-            num_rois = str(atlas.get('num_rois', '?'))
-            parcellation = atlas.get('parcellation_type', 'unknown').capitalize()
-            has_subcortical = atlas.get('includes_subcortical', False)
+            name = atlas.get("short_name", atlas.get("name", "Unknown"))
+            atlas_type = atlas.get("atlas_type", "unknown")
+            num_rois = str(atlas.get("num_rois", "?"))
+            parcellation = atlas.get("parcellation_type", "unknown").capitalize()
+            has_subcortical = atlas.get("includes_subcortical", False)
 
-            subcortical_text = "[green]Yes[/green]" if has_subcortical else "[red]No[/red]"
+            subcortical_text = (
+                "[green]Yes[/green]" if has_subcortical else "[red]No[/red]"
+            )
 
             row = [atlas_id, name, atlas_type, num_rois, parcellation, subcortical_text]
 
             if detailed:
-                suitable_for = atlas.get('suitable_for', [])
+                suitable_for = atlas.get("suitable_for", [])
                 best_for = suitable_for[0] if suitable_for else "General use"
                 row.append(best_for)
 
@@ -124,7 +130,7 @@ class AtlasManager:
         total = len(atlases)
         by_type = {}
         for atlas in atlases.values():
-            atlas_type = atlas.get('atlas_type', 'unknown')
+            atlas_type = atlas.get("atlas_type", "unknown")
             by_type[atlas_type] = by_type.get(atlas_type, 0) + 1
 
         summary_parts = [f"Total: {total} atlases"]
@@ -159,20 +165,22 @@ class AtlasManager:
 [bold]Suitable For:[/bold]
 """
 
-        suitable_for = atlas.get('suitable_for', [])
+        suitable_for = atlas.get("suitable_for", [])
         for item in suitable_for:
             info_text += f"  • {item}\n"
 
-        if atlas.get('reference'):
+        if atlas.get("reference"):
             info_text += f"\n[bold]Reference:[/bold] {atlas['reference']}"
 
-        if atlas.get('doi'):
+        if atlas.get("doi"):
             info_text += f"\n[bold]DOI:[/bold] https://doi.org/{atlas['doi']}"
 
-        if atlas.get('notes'):
+        if atlas.get("notes"):
             info_text += f"\n\n[bold]Notes:[/bold]\n{atlas['notes']}"
 
-        console.print(Panel(info_text, title=f"Atlas: {atlas_id}", border_style="green"))
+        console.print(
+            Panel(info_text, title=f"Atlas: {atlas_id}", border_style="green")
+        )
 
     def get_atlas_path(self, atlas_id: str) -> Optional[Path]:
         """Get the file path for an atlas CSV file."""
@@ -181,15 +189,15 @@ class AtlasManager:
         if not atlas:
             return None
 
-        filename = atlas.get('file')
+        filename = atlas.get("file")
         if not filename:
             return None
 
         # Try to find the atlas file
         possible_paths = [
             Path(__file__).parent.parent / "data" / "atlases" / filename,  # Development
-            Path(__file__).parent / "data" / "atlases" / filename,         # Installed package
-            Path("data") / "atlases" / filename                            # Current directory
+            Path(__file__).parent / "data" / "atlases" / filename,  # Installed package
+            Path("data") / "atlases" / filename,  # Current directory
         ]
 
         for path in possible_paths:
@@ -217,7 +225,7 @@ class AtlasManager:
         target_path.mkdir(parents=True, exist_ok=True)
 
         # Copy file
-        dest_file = target_path / atlas['file']
+        dest_file = target_path / atlas["file"]
 
         try:
             shutil.copy2(source_path, dest_file)
@@ -262,7 +270,9 @@ class AtlasManager:
 [dim]Last Updated: {self.metadata.get('last_updated', 'Unknown')}[/dim]
 """
 
-        console.print(Panel(attribution_text, title="Atlas Attribution", border_style="blue"))
+        console.print(
+            Panel(attribution_text, title="Atlas Attribution", border_style="blue")
+        )
 
     def get_atlas_types_info(self) -> Dict:
         """Get information about different atlas types."""

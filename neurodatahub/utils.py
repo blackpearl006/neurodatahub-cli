@@ -17,8 +17,10 @@ from .exceptions import (
     DependencyError,
     DiskSpaceError,
     NetworkError,
-    PermissionError as NDHPermissionError,
-    ValidationError
+)
+from .exceptions import PermissionError as NDHPermissionError
+from .exceptions import (
+    ValidationError,
 )
 
 console = Console()
@@ -37,58 +39,67 @@ def get_dependency_status() -> Dict[str, bool]:
         "aria2c": "aria2c",
         "datalad": "datalad",
         "git": "git",
-        "firefox": "firefox"
+        "firefox": "firefox",
     }
-    
+
     status = {}
     for name, command in dependencies.items():
         status[name] = check_dependency(command)
-    
+
     return status
 
 
 def display_dependency_status():
     """Display a formatted table of dependency status."""
     status = get_dependency_status()
-    
+
     table = Table(title="System Dependencies Status")
     table.add_column("Dependency", style="cyan")
     table.add_column("Status", justify="center")
     table.add_column("Installation Guide", style="dim")
-    
+
     installation_guides = {
         "awscli": "pip install awscli  OR  conda install -c conda-forge awscli",
         "aria2c": "brew install aria2  OR  apt-get install aria2  OR  conda install -c conda-forge aria2",
         "datalad": "pip install datalad  OR  conda install -c conda-forge datalad",
         "git": "https://git-scm.com/downloads",
-        "firefox": "https://www.mozilla.org/firefox/"
+        "firefox": "https://www.mozilla.org/firefox/",
     }
-    
+
     for dep, is_available in status.items():
-        status_text = "[green][✓] Available[/green]" if is_available else "[red][✗] Missing[/red]"
+        status_text = (
+            "[green][✓] Available[/green]" if is_available else "[red][✗] Missing[/red]"
+        )
         guide = installation_guides.get(dep, "See official documentation")
         table.add_row(dep, status_text, guide)
-    
+
     console.print(table)
-    
+
     missing_deps = [dep for dep, available in status.items() if not available]
     if missing_deps:
-        console.print(Panel(
-            f"[yellow]Warning:[/yellow] Some dependencies are missing: {', '.join(missing_deps)}\n"
-            "Some datasets may not be downloadable without these tools.",
-            title="Missing Dependencies"
-        ))
+        console.print(
+            Panel(
+                f"[yellow]Warning:[/yellow] Some dependencies are missing: {', '.join(missing_deps)}\n"
+                "Some datasets may not be downloadable without these tools.",
+                title="Missing Dependencies",
+            )
+        )
 
 
-def run_command(command: str, cwd: Optional[str] = None, capture_output: bool = False, 
-                timeout: Optional[int] = None, retries: int = 0) -> Tuple[int, str, str]:
+def run_command(
+    command: str,
+    cwd: Optional[str] = None,
+    capture_output: bool = False,
+    timeout: Optional[int] = None,
+    retries: int = 0,
+) -> Tuple[int, str, str]:
     """Run a shell command with enhanced error handling and retry logic."""
     last_exception = None
-    
+
     for attempt in range(retries + 1):
         try:
             logger.debug(f"Running command (attempt {attempt + 1}): {command}")
-            
+
             result = subprocess.run(
                 command,
                 shell=True,
@@ -96,58 +107,62 @@ def run_command(command: str, cwd: Optional[str] = None, capture_output: bool = 
                 capture_output=capture_output,
                 text=True,
                 check=False,
-                timeout=timeout
+                timeout=timeout,
             )
-            
+
             if result.returncode == 0 or attempt == retries:
                 return result.returncode, result.stdout or "", result.stderr or ""
             else:
                 logger.warning(f"Command failed on attempt {attempt + 1}, retrying...")
-                time.sleep(min(2 ** attempt, 10))  # Exponential backoff, max 10 seconds
-                
+                time.sleep(min(2**attempt, 10))  # Exponential backoff, max 10 seconds
+
         except subprocess.TimeoutExpired as e:
             last_exception = e
             logger.warning(f"Command timed out on attempt {attempt + 1}")
             if attempt < retries:
-                time.sleep(min(2 ** attempt, 10))
+                time.sleep(min(2**attempt, 10))
             else:
                 return 1, "", f"Command timed out after {timeout} seconds"
-                
+
         except Exception as e:
             last_exception = e
             logger.error(f"Unexpected error running command: {e}")
             if attempt < retries:
-                time.sleep(min(2 ** attempt, 10))
+                time.sleep(min(2**attempt, 10))
             else:
                 return 1, "", str(e)
-    
+
     return 1, "", str(last_exception) if last_exception else "Command failed"
 
 
 def validate_path(path: str, create_if_missing: bool = True) -> bool:
     """Validate and optionally create a download path."""
     path_obj = Path(path)
-    
+
     if path_obj.exists():
         if not path_obj.is_dir():
-            console.print(f"[red]Error:[/red] Path exists but is not a directory: {path}")
+            console.print(
+                f"[red]Error:[/red] Path exists but is not a directory: {path}"
+            )
             return False
         if not os.access(path, os.W_OK):
             console.print(f"[red]Error:[/red] No write permission for path: {path}")
             return False
         return True
-    
+
     if create_if_missing:
         try:
             path_obj.mkdir(parents=True, exist_ok=True)
             return True
         except PermissionError:
-            console.print(f"[red]Error:[/red] Permission denied creating directory: {path}")
+            console.print(
+                f"[red]Error:[/red] Permission denied creating directory: {path}"
+            )
             return False
         except Exception as e:
             console.print(f"[red]Error:[/red] Failed to create directory {path}: {e}")
             return False
-    
+
     return False
 
 
@@ -165,7 +180,7 @@ def get_confirmation(message: str, default: bool = True) -> bool:
         response = input(f"{message} [{default_str}]: ").strip().lower()
         if not response:
             return default
-        return response in ['y', 'yes', 'true', '1']
+        return response in ["y", "yes", "true", "1"]
     except (KeyboardInterrupt, EOFError):
         console.print("\n[yellow]Operation cancelled by user.[/yellow]")
         return False
@@ -173,20 +188,20 @@ def get_confirmation(message: str, default: bool = True) -> bool:
 
 def display_dataset_info(dataset: Dict, detailed: bool = False):
     """Display information about a dataset."""
-    name = dataset.get('name', 'Unknown')
-    description = dataset.get('description', 'No description available')
-    size = dataset.get('size', 'Unknown')
-    category = dataset.get('category', 'unknown')
-    auth_required = dataset.get('auth_required', False)
-    website = dataset.get('website', '')
-    
+    name = dataset.get("name", "Unknown")
+    description = dataset.get("description", "No description available")
+    size = dataset.get("size", "Unknown")
+    category = dataset.get("category", "unknown")
+    auth_required = dataset.get("auth_required", False)
+    website = dataset.get("website", "")
+
     auth_text = "[red]Yes[/red]" if auth_required else "[green]No[/green]"
-    
+
     if detailed:
         table = Table(title=f"Dataset Information: {name}")
         table.add_column("Property", style="cyan")
         table.add_column("Value")
-        
+
         table.add_row("Name", name)
         table.add_row("Description", description)
         table.add_row("Category", category.upper())
@@ -194,13 +209,13 @@ def display_dataset_info(dataset: Dict, detailed: bool = False):
         table.add_row("Authentication Required", auth_text)
         if website:
             table.add_row("Website", website)
-        if dataset.get('publication'):
-            table.add_row("Publication", dataset['publication'])
-        if dataset.get('openneuro_id'):
-            table.add_row("OpenNeuro ID", dataset['openneuro_id'])
-        if dataset.get('repository'):
-            table.add_row("Repository", dataset['repository'])
-        
+        if dataset.get("publication"):
+            table.add_row("Publication", dataset["publication"])
+        if dataset.get("openneuro_id"):
+            table.add_row("OpenNeuro ID", dataset["openneuro_id"])
+        if dataset.get("repository"):
+            table.add_row("Repository", dataset["repository"])
+
         console.print(table)
     else:
         console.print(f"[bold]{name}[/bold] ({category.upper()})")
@@ -212,30 +227,40 @@ def display_dataset_info(dataset: Dict, detailed: bool = False):
 
 def check_available_space(path: str, required_size: str) -> bool:
     """Check if there's enough available disk space."""
-    if not required_size or not required_size.replace('~', '').replace('GB', '').replace('TB', '').strip():
+    if (
+        not required_size
+        or not required_size.replace("~", "")
+        .replace("GB", "")
+        .replace("TB", "")
+        .strip()
+    ):
         return True
-    
+
     try:
         # Convert size to bytes (rough estimation)
-        size_str = required_size.replace('~', '').strip()
-        if 'TB' in size_str:
-            required_bytes = float(size_str.replace('TB', '')) * 1024 * 1024 * 1024 * 1024
-        elif 'GB' in size_str:
-            required_bytes = float(size_str.replace('GB', '')) * 1024 * 1024 * 1024
+        size_str = required_size.replace("~", "").strip()
+        if "TB" in size_str:
+            required_bytes = (
+                float(size_str.replace("TB", "")) * 1024 * 1024 * 1024 * 1024
+            )
+        elif "GB" in size_str:
+            required_bytes = float(size_str.replace("GB", "")) * 1024 * 1024 * 1024
         else:
             return True
-        
+
         # Check available space
         statvfs = os.statvfs(path)
         available_bytes = statvfs.f_frsize * statvfs.f_bavail
-        
+
         if available_bytes < required_bytes:
             available_gb = available_bytes / (1024 * 1024 * 1024)
             required_gb = required_bytes / (1024 * 1024 * 1024)
-            console.print(f"[yellow]Warning:[/yellow] Insufficient disk space. "
-                         f"Available: {available_gb:.1f}GB, Required: {required_gb:.1f}GB")
+            console.print(
+                f"[yellow]Warning:[/yellow] Insufficient disk space. "
+                f"Available: {available_gb:.1f}GB, Required: {required_gb:.1f}GB"
+            )
             return False
-        
+
         return True
     except (ValueError, OSError):
         # If we can't determine space, assume it's okay

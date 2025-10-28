@@ -29,11 +29,11 @@ def check_python_version():
     print("🐍 Checking Python version...")
     version = sys.version_info
     print(f"   Python {version.major}.{version.minor}.{version.micro}")
-    
+
     if version < (3, 8):
         print("❌ Python 3.8 or higher is required")
         return False
-    
+
     print("✅ Python version OK")
     return True
 
@@ -41,22 +41,22 @@ def check_python_version():
 def setup_git_hooks():
     """Set up git pre-commit hooks."""
     print("\n🪝 Setting up git hooks...")
-    
+
     # Check if we're in a git repository
-    if not Path('.git').exists():
+    if not Path(".git").exists():
         print("⚠️ Not in a git repository, skipping git hooks")
         return True
-    
+
     # Install pre-commit
-    if not run_command([sys.executable, '-m', 'pip', 'install', 'pre-commit']):
+    if not run_command([sys.executable, "-m", "pip", "install", "pre-commit"]):
         print("❌ Failed to install pre-commit")
         return False
-    
+
     # Install hooks
-    if not run_command(['pre-commit', 'install']):
+    if not run_command(["pre-commit", "install"]):
         print("❌ Failed to install pre-commit hooks")
         return False
-    
+
     print("✅ Git hooks installed")
     return True
 
@@ -64,12 +64,12 @@ def setup_git_hooks():
 def install_dependencies():
     """Install development dependencies."""
     print("\n📦 Installing dependencies...")
-    
+
     # Install package in development mode with dev dependencies
-    if not run_command([sys.executable, '-m', 'pip', 'install', '-e', '.[dev]']):
+    if not run_command([sys.executable, "-m", "pip", "install", "-e", ".[dev]"]):
         print("❌ Failed to install package dependencies")
         return False
-    
+
     print("✅ Dependencies installed")
     return True
 
@@ -77,9 +77,9 @@ def install_dependencies():
 def create_config_files():
     """Create development configuration files."""
     print("\n⚙️ Creating configuration files...")
-    
+
     # Create .pre-commit-config.yaml if it doesn't exist
-    precommit_config = Path('.pre-commit-config.yaml')
+    precommit_config = Path(".pre-commit-config.yaml")
     if not precommit_config.exists():
         config_content = """
 repos:
@@ -119,13 +119,13 @@ repos:
       - id: check-merge-conflict
       - id: debug-statements
 """.strip()
-        
-        with open(precommit_config, 'w') as f:
+
+        with open(precommit_config, "w") as f:
             f.write(config_content)
         print(f"   Created {precommit_config}")
-    
+
     # Create pytest.ini if it doesn't exist
-    pytest_config = Path('pytest.ini')
+    pytest_config = Path("pytest.ini")
     if not pytest_config.exists():
         config_content = """
 [tool:pytest]
@@ -145,13 +145,13 @@ markers =
     integration: marks tests as integration tests
     unit: marks tests as unit tests
 """.strip()
-        
-        with open(pytest_config, 'w') as f:
+
+        with open(pytest_config, "w") as f:
             f.write(config_content)
         print(f"   Created {pytest_config}")
-    
+
     # Create Makefile for common tasks
-    makefile = Path('Makefile')
+    makefile = Path("Makefile")
     if not makefile.exists():
         content = """
 .PHONY: help install test lint format clean build upload
@@ -205,11 +205,11 @@ upload: build
 validate-config:
 	python -c "from neurodatahub.validation import validate_datasets_config; from pathlib import Path; valid, issues = validate_datasets_config(Path('data/datasets.json')); print('✅ Config valid' if valid else '❌ Config issues:'); [print(f'  {issue}') for issue in issues]"
 """.strip()
-        
-        with open(makefile, 'w') as f:
+
+        with open(makefile, "w") as f:
             f.write(content)
         print(f"   Created {makefile}")
-    
+
     print("✅ Configuration files created")
     return True
 
@@ -217,37 +217,39 @@ validate-config:
 def run_initial_tests():
     """Run initial test suite to verify setup."""
     print("\n🧪 Running initial tests...")
-    
+
     # Run a basic test to see if everything is working
-    if not run_command([sys.executable, '-m', 'pytest', '--version']):
+    if not run_command([sys.executable, "-m", "pytest", "--version"]):
         print("❌ pytest not available")
         return False
-    
+
     # Run quick syntax check
-    if not run_command([sys.executable, '-c', 'import neurodatahub; print("Import OK")']):
+    if not run_command(
+        [sys.executable, "-c", 'import neurodatahub; print("Import OK")']
+    ):
         print("❌ Package import failed")
         return False
-    
+
     # Run basic validation
-    if Path('data/datasets.json').exists():
+    if Path("data/datasets.json").exists():
         validation_cmd = """
 from neurodatahub.validation import validate_datasets_config
 from pathlib import Path
 valid, issues = validate_datasets_config(Path('data/datasets.json'))
 print('✅ Config validation passed' if valid else f'❌ Config validation failed: {len(issues)} issues')
 """
-        if not run_command([sys.executable, '-c', validation_cmd]):
+        if not run_command([sys.executable, "-c", validation_cmd]):
             print("⚠️ Config validation had issues")
-    
+
     print("✅ Initial tests passed")
     return True
 
 
 def display_next_steps():
     """Display next steps for development."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🎉 Development Environment Setup Complete!")
-    print("="*60)
+    print("=" * 60)
     print("\n📋 Next steps:")
     print("   1. Activate your virtual environment (if using one)")
     print("   2. Run tests: pytest")
@@ -274,37 +276,39 @@ def display_next_steps():
 def main():
     """Main setup function."""
     print("🚀 NeuroDataHub CLI Development Environment Setup")
-    print("="*60)
-    
+    print("=" * 60)
+
     # Change to script directory
     script_dir = Path(__file__).parent.parent
     os.chdir(script_dir)
     print(f"📁 Working directory: {script_dir.absolute()}")
-    
+
     success = True
-    
+
     # Check Python version
     success &= check_python_version()
-    
+
     # Install dependencies
     success &= install_dependencies()
-    
+
     # Create configuration files
     success &= create_config_files()
-    
+
     # Setup git hooks
     success &= setup_git_hooks()
-    
+
     # Run initial tests
     success &= run_initial_tests()
-    
+
     if success:
         display_next_steps()
         sys.exit(0)
     else:
-        print("\n❌ Setup encountered errors. Please fix the issues above and try again.")
+        print(
+            "\n❌ Setup encountered errors. Please fix the issues above and try again."
+        )
         sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

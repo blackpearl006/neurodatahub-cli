@@ -9,25 +9,25 @@ from typing import Dict, List, Optional, Tuple
 import requests
 from rich.console import Console
 from rich.progress import (
-    BarColumn, 
-    DownloadColumn, 
-    Progress, 
-    TaskID, 
-    TextColumn, 
+    BarColumn,
+    DownloadColumn,
+    Progress,
+    TaskID,
+    TextColumn,
     TimeRemainingColumn,
-    TransferSpeedColumn
+    TransferSpeedColumn,
 )
 from tqdm import tqdm
 
 from .utils import (
-    check_dependency, 
-    display_error, 
-    display_success, 
-    display_info, 
+    check_available_space,
+    check_dependency,
+    display_error,
+    display_info,
+    display_success,
     display_warning,
     run_command,
     validate_path,
-    check_available_space
 )
 
 console = Console()
@@ -35,6 +35,7 @@ console = Console()
 
 class DownloadError(Exception):
     """Custom exception for download errors."""
+
     pass
 
 
@@ -44,8 +45,8 @@ class BaseDownloader:
     def __init__(self, dataset: Dict, target_path: str):
         self.dataset = dataset
         self.target_path = Path(target_path)
-        self.dataset_name = dataset.get('name', 'Unknown Dataset')
-        self.dataset_size = dataset.get('size', 'Unknown')
+        self.dataset_name = dataset.get("name", "Unknown Dataset")
+        self.dataset_size = dataset.get("size", "Unknown")
 
         # Create subdirectories for organized storage
         self.anat_path = self.target_path / "anat"
@@ -74,16 +75,16 @@ class BaseDownloader:
 
         for url in metadata_urls:
             try:
-                filename = url.split('/')[-1]
+                filename = url.split("/")[-1]
                 filepath = self.metadata_path / filename
 
                 display_info(f"Downloading {filename}...")
                 response = requests.get(url, stream=True, timeout=30)
                 response.raise_for_status()
 
-                total_size = int(response.headers.get('content-length', 0))
+                total_size = int(response.headers.get("content-length", 0))
 
-                with open(filepath, 'wb') as f:
+                with open(filepath, "wb") as f:
                     if total_size > 0:
                         downloaded = 0
                         for chunk in response.iter_content(chunk_size=8192):
@@ -102,7 +103,9 @@ class BaseDownloader:
                 display_warning(f"  Could not download {url.split('/')[-1]}: {e}")
 
         if success_count > 0:
-            display_success(f"Downloaded {success_count}/{len(metadata_urls)} metadata files")
+            display_success(
+                f"Downloaded {success_count}/{len(metadata_urls)} metadata files"
+            )
             return True
         return False
 
@@ -121,11 +124,11 @@ class BaseDownloader:
             return False
 
         return True
-    
+
     def download(self, dry_run: bool = False) -> bool:
         """Execute the download. Should be implemented by subclasses."""
         raise NotImplementedError
-    
+
     def cleanup(self):
         """Cleanup after download (optional)."""
         pass
@@ -136,42 +139,44 @@ class AwsS3Downloader(BaseDownloader):
 
     def __init__(self, dataset: Dict, target_path: str):
         super().__init__(dataset, target_path)
-        self.base_command = dataset.get('base_command', '')
-        self.requires_credentials = dataset.get('download_method') == 'aws_credentials'
-        self.category = dataset.get('category', '').lower()
-        self.is_openneuro = self.category == 'openneuro' or 'openneuro.org' in self.base_command
-    
+        self.base_command = dataset.get("base_command", "")
+        self.requires_credentials = dataset.get("download_method") == "aws_credentials"
+        self.category = dataset.get("category", "").lower()
+        self.is_openneuro = (
+            self.category == "openneuro" or "openneuro.org" in self.base_command
+        )
+
     def prepare(self) -> bool:
         if not super().prepare():
             return False
-        
+
         # Check if AWS CLI is available
-        if not check_dependency('aws'):
+        if not check_dependency("aws"):
             display_error(
                 "AWS CLI is not installed",
-                "Install with: pip install awscli  OR  conda install -c conda-forge awscli"
+                "Install with: pip install awscli  OR  conda install -c conda-forge awscli",
             )
             return False
-        
+
         # Check AWS credentials if required
         if self.requires_credentials:
-            result = run_command('aws configure list', capture_output=True)
+            result = run_command("aws configure list", capture_output=True)
             if result[0] != 0:
                 display_error(
                     "AWS credentials not configured",
-                    "Run 'aws configure' to set up your credentials"
+                    "Run 'aws configure' to set up your credentials",
                 )
                 return False
-        
+
         return True
-    
+
     def download(self, dry_run: bool = False) -> bool:
         if not self.base_command:
             display_error("No download command configured for this dataset")
             return False
 
         # Replace placeholder in command with anat/ folder for anatomical images
-        command = self.base_command.replace(' .', f' "{self.anat_path}"')
+        command = self.base_command.replace(" .", f' "{self.anat_path}"')
 
         if dry_run:
             display_info(f"Would run: {command}")
@@ -191,12 +196,12 @@ class AwsS3Downloader(BaseDownloader):
             display_success(f"Download completed in {elapsed:.1f} seconds")
 
             # Download metadata if specified (e.g., for NKI, other INDI datasets)
-            metadata_urls = self.dataset.get('metadata_urls', [])
+            metadata_urls = self.dataset.get("metadata_urls", [])
             if metadata_urls:
                 self._download_metadata_from_urls(metadata_urls)
 
             # Download OpenNeuro BIDS metadata using metadata_command
-            metadata_command = self.dataset.get('metadata_command')
+            metadata_command = self.dataset.get("metadata_command")
             if metadata_command:
                 self._download_metadata_with_command(metadata_command)
 
@@ -214,7 +219,7 @@ class AwsS3Downloader(BaseDownloader):
         # Replace the destination path to download to metadata/ folder
         # The command template is: aws s3 sync --no-sign-request s3://... . --exclude "*" --include "*.tsv" --include "*.json"
         # We need to replace the '.' with our metadata_path
-        command = metadata_command.replace(' . ', f' "{self.metadata_path}" ')
+        command = metadata_command.replace(" . ", f' "{self.metadata_path}" ')
 
         display_info(f"Fetching .tsv and .json files from OpenNeuro...")
 
@@ -224,31 +229,33 @@ class AwsS3Downloader(BaseDownloader):
             display_success("✓ BIDS metadata files downloaded to metadata/")
             return True
         else:
-            display_warning("Could not download some metadata files (this is normal if they don't exist)")
+            display_warning(
+                "Could not download some metadata files (this is normal if they don't exist)"
+            )
             return False
 
 
 class Aria2cDownloader(BaseDownloader):
     """Downloader using aria2c for fast parallel downloads."""
-    
+
     def __init__(self, dataset: Dict, target_path: str):
         super().__init__(dataset, target_path)
-        self.base_command = dataset.get('base_command', '')
-    
+        self.base_command = dataset.get("base_command", "")
+
     def prepare(self) -> bool:
         if not super().prepare():
             return False
-        
+
         # Check if aria2c is available
-        if not check_dependency('aria2c'):
+        if not check_dependency("aria2c"):
             display_error(
                 "aria2c is not installed",
-                "Install with: brew install aria2  OR  apt-get install aria2  OR  conda install -c conda-forge aria2"
+                "Install with: brew install aria2  OR  apt-get install aria2  OR  conda install -c conda-forge aria2",
             )
             return False
-        
+
         return True
-    
+
     def download(self, dry_run: bool = False) -> bool:
         if not self.base_command:
             display_error("No download command configured for this dataset")
@@ -258,7 +265,7 @@ class Aria2cDownloader(BaseDownloader):
             return self._download_multiple_files(dry_run)
 
         # Single file download to anat/ folder
-        command = f"{self.base_command} --dir=\"{self.anat_path}\""
+        command = f'{self.base_command} --dir="{self.anat_path}"'
 
         if dry_run:
             display_info(f"Would run: {command}")
@@ -276,7 +283,7 @@ class Aria2cDownloader(BaseDownloader):
             display_success(f"Download completed in {elapsed:.1f} seconds")
 
             # Download metadata if specified (e.g., for OASIS datasets)
-            metadata_urls = self.dataset.get('metadata_urls', [])
+            metadata_urls = self.dataset.get("metadata_urls", [])
             if metadata_urls:
                 self._download_metadata_from_urls(metadata_urls)
 
@@ -286,21 +293,19 @@ class Aria2cDownloader(BaseDownloader):
             if stderr:
                 console.print(f"[red]Error output:[/red] {stderr}")
             return False
-    
+
     def _download_multiple_files(self, dry_run: bool = False) -> bool:
         """Handle datasets that require multiple aria2c downloads (like OASIS)."""
         # Get dataset name or ID
-        dataset_name = self.dataset.get('name', 'UNKNOWN')
+        dataset_name = self.dataset.get("name", "UNKNOWN")
 
         if "OASIS1" in dataset_name:
             urls = [
                 "https://www.oasis-brains.org/files/oasis_cross-sectional.tar.gz",
-                "https://www.oasis-brains.org/files/oasis_longitudinal.tar.gz"
+                "https://www.oasis-brains.org/files/oasis_longitudinal.tar.gz",
             ]
         elif "OASIS2" in dataset_name:
-            urls = [
-                "https://www.oasis-brains.org/files/oasis_longitudinal.tar.gz"
-            ]
+            urls = ["https://www.oasis-brains.org/files/oasis_longitudinal.tar.gz"]
         else:
             display_error("Multiple download configuration not found for this dataset")
             return False
@@ -314,7 +319,7 @@ class Aria2cDownloader(BaseDownloader):
         success = True
         for i, url in enumerate(urls, 1):
             display_info(f"Downloading file {i}/{len(urls)}: {url}")
-            command = f"aria2c -x 10 -j 10 -s 10 \"{url}\" --dir=\"{self.anat_path}\""
+            command = f'aria2c -x 10 -j 10 -s 10 "{url}" --dir="{self.anat_path}"'
 
             returncode, stdout, stderr = run_command(command, capture_output=False)
             if returncode != 0:
@@ -323,7 +328,7 @@ class Aria2cDownloader(BaseDownloader):
 
         # Download metadata if the download was successful
         if success:
-            metadata_urls = self.dataset.get('metadata_urls', [])
+            metadata_urls = self.dataset.get("metadata_urls", [])
             if metadata_urls:
                 self._download_metadata_from_urls(metadata_urls)
 
@@ -335,10 +340,12 @@ class DataladDownloader(BaseDownloader):
 
     def __init__(self, dataset: Dict, target_path: str):
         super().__init__(dataset, target_path)
-        self.base_command = dataset.get('base_command', '')
-        self.repository = dataset.get('repository', '')
-        self.category = dataset.get('category', '').lower()
-        self.is_openneuro = self.category == 'openneuro' or 'openneuro' in self.repository.lower()
+        self.base_command = dataset.get("base_command", "")
+        self.repository = dataset.get("repository", "")
+        self.category = dataset.get("category", "").lower()
+        self.is_openneuro = (
+            self.category == "openneuro" or "openneuro" in self.repository.lower()
+        )
 
     def prepare(self) -> bool:
         if not super().prepare():
@@ -346,27 +353,27 @@ class DataladDownloader(BaseDownloader):
 
         # Check dependencies
         missing_deps = []
-        if not check_dependency('git'):
-            missing_deps.append('git')
-        if not check_dependency('datalad'):
-            missing_deps.append('datalad')
+        if not check_dependency("git"):
+            missing_deps.append("git")
+        if not check_dependency("datalad"):
+            missing_deps.append("datalad")
 
         if missing_deps:
             display_error(
                 f"Missing dependencies: {', '.join(missing_deps)}",
-                "Install git from https://git-scm.com/ and datalad with: pip install datalad"
+                "Install git from https://git-scm.com/ and datalad with: pip install datalad",
             )
             return False
 
         return True
-    
+
     def download(self, dry_run: bool = False) -> bool:
         if not self.repository:
             display_error("No repository URL configured for this dataset")
             return False
 
         # Parse the commands from base_command
-        commands = self.base_command.split(' && ')
+        commands = self.base_command.split(" && ")
 
         if dry_run:
             display_info("Would execute the following commands:")
@@ -399,13 +406,17 @@ class DataladDownloader(BaseDownloader):
             # For OpenNeuro/BIDS datasets, download metadata files
             if self.is_openneuro:
                 if not self._download_bids_metadata():
-                    display_warning("Failed to download some BIDS metadata files, but continuing...")
+                    display_warning(
+                        "Failed to download some BIDS metadata files, but continuing..."
+                    )
 
             # For RBC datasets with specific metadata files
-            metadata_files = self.dataset.get('metadata_files', [])
+            metadata_files = self.dataset.get("metadata_files", [])
             if metadata_files:
                 if not self._download_rbc_metadata(metadata_files):
-                    display_warning("Failed to download some RBC metadata files, but continuing...")
+                    display_warning(
+                        "Failed to download some RBC metadata files, but continuing..."
+                    )
 
             display_success("DataLad download completed successfully")
             return True
@@ -422,9 +433,9 @@ class DataladDownloader(BaseDownloader):
 
         # List of BIDS metadata files to download
         metadata_files = [
-            'dataset_description.json',
-            'participants.json',
-            'participants.tsv',
+            "dataset_description.json",
+            "participants.json",
+            "participants.tsv",
         ]
 
         success = True
@@ -440,6 +451,7 @@ class DataladDownloader(BaseDownloader):
                 source_file = Path(metadata_file)
                 if source_file.exists():
                     import shutil
+
                     dest_file = self.metadata_path / source_file.name
                     try:
                         shutil.move(str(source_file), str(dest_file))
@@ -448,9 +460,13 @@ class DataladDownloader(BaseDownloader):
                         display_warning(f"  Could not move {metadata_file}: {e}")
                         success = False
                 else:
-                    display_warning(f"  {metadata_file} not found in dataset (may not exist)")
+                    display_warning(
+                        f"  {metadata_file} not found in dataset (may not exist)"
+                    )
             else:
-                display_warning(f"  {metadata_file} not available (may not exist in this dataset)")
+                display_warning(
+                    f"  {metadata_file} not available (may not exist in this dataset)"
+                )
 
         return success
 
@@ -471,6 +487,7 @@ class DataladDownloader(BaseDownloader):
                 source_file = Path(metadata_file)
                 if source_file.exists():
                     import shutil
+
                     dest_file = self.metadata_path / source_file.name
                     try:
                         shutil.move(str(source_file), str(dest_file))
@@ -479,20 +496,24 @@ class DataladDownloader(BaseDownloader):
                         display_warning(f"  Could not move {metadata_file}: {e}")
                         success = False
                 else:
-                    display_warning(f"  {metadata_file} not found in dataset (may not exist)")
+                    display_warning(
+                        f"  {metadata_file} not found in dataset (may not exist)"
+                    )
             else:
-                display_warning(f"  {metadata_file} not available (may not exist in this dataset)")
+                display_warning(
+                    f"  {metadata_file} not available (may not exist in this dataset)"
+                )
 
         return success
 
 
 class RequestsDownloader(BaseDownloader):
     """Fallback downloader using Python requests."""
-    
+
     def __init__(self, dataset: Dict, target_path: str, url: str):
         super().__init__(dataset, target_path)
         self.url = url
-    
+
     def download(self, dry_run: bool = False) -> bool:
         if dry_run:
             display_info(f"Would download from: {self.url}")
@@ -506,15 +527,17 @@ class RequestsDownloader(BaseDownloader):
             response.raise_for_status()
 
             # Get filename from URL or use default
-            filename = self.url.split('/')[-1] or f"{self.dataset_name.lower()}.tar.gz"
+            filename = self.url.split("/")[-1] or f"{self.dataset_name.lower()}.tar.gz"
             filepath = self.anat_path / filename
 
             # Get file size if available
-            total_size = int(response.headers.get('content-length', 0))
+            total_size = int(response.headers.get("content-length", 0))
 
-            with open(filepath, 'wb') as f:
+            with open(filepath, "wb") as f:
                 if total_size > 0:
-                    with tqdm(total=total_size, unit='B', unit_scale=True, desc=filename) as pbar:
+                    with tqdm(
+                        total=total_size, unit="B", unit_scale=True, desc=filename
+                    ) as pbar:
                         for chunk in response.iter_content(chunk_size=8192):
                             if chunk:
                                 f.write(chunk)
@@ -534,42 +557,52 @@ class RequestsDownloader(BaseDownloader):
 
 class DownloadManager:
     """Manages the download process for different dataset types."""
-    
+
     def __init__(self):
         self.downloaders = {
-            'aws_s3': AwsS3Downloader,
-            'aws_credentials': AwsS3Downloader,
-            'aria2c': Aria2cDownloader,
-            'datalad': DataladDownloader,
+            "aws_s3": AwsS3Downloader,
+            "aws_credentials": AwsS3Downloader,
+            "aria2c": Aria2cDownloader,
+            "datalad": DataladDownloader,
         }
-    
-    def get_downloader(self, dataset: Dict, target_path: str) -> Optional[BaseDownloader]:
+
+    def get_downloader(
+        self, dataset: Dict, target_path: str
+    ) -> Optional[BaseDownloader]:
         """Get the appropriate downloader for a dataset."""
-        download_method = dataset.get('download_method', 'requests')
-        
+        download_method = dataset.get("download_method", "requests")
+
         if download_method in self.downloaders:
             return self.downloaders[download_method](dataset, target_path)
-        elif download_method == 'ida_loni':
+        elif download_method == "ida_loni":
             # IDA-LONI downloads are handled separately
-            display_error("IDA-LONI downloads require interactive authentication. Use 'neurodatahub pull' with the dataset ID.")
+            display_error(
+                "IDA-LONI downloads require interactive authentication. Use 'neurodatahub pull' with the dataset ID."
+            )
             return None
-        elif download_method == 'special':
-            display_error("This dataset requires a special download procedure. Please check the dataset documentation.")
+        elif download_method == "special":
+            display_error(
+                "This dataset requires a special download procedure. Please check the dataset documentation."
+            )
             return None
         else:
-            display_warning(f"Unknown download method '{download_method}', will try fallback methods")
+            display_warning(
+                f"Unknown download method '{download_method}', will try fallback methods"
+            )
             return None
-    
-    def download_dataset(self, dataset: Dict, target_path: str, dry_run: bool = False) -> bool:
+
+    def download_dataset(
+        self, dataset: Dict, target_path: str, dry_run: bool = False
+    ) -> bool:
         """Download a dataset using the appropriate method."""
         downloader = self.get_downloader(dataset, target_path)
-        
+
         if not downloader:
             return self._try_fallback_download(dataset, target_path, dry_run)
-        
+
         if not downloader.prepare():
             return False
-        
+
         try:
             success = downloader.download(dry_run)
             downloader.cleanup()
@@ -578,21 +611,24 @@ class DownloadManager:
             display_error(f"Download failed: {e}")
             downloader.cleanup()
             return False
-    
-    def _try_fallback_download(self, dataset: Dict, target_path: str, dry_run: bool = False) -> bool:
+
+    def _try_fallback_download(
+        self, dataset: Dict, target_path: str, dry_run: bool = False
+    ) -> bool:
         """Try fallback download methods when primary method fails."""
         display_info("Attempting fallback download methods...")
-        
+
         # Try to extract a URL from the base command
-        base_command = dataset.get('base_command', '')
-        if 'http' in base_command:
+        base_command = dataset.get("base_command", "")
+        if "http" in base_command:
             # Extract URL from command
             import re
-            urls = re.findall(r'https?://[^\s]+', base_command)
+
+            urls = re.findall(r"https?://[^\s]+", base_command)
             if urls:
                 downloader = RequestsDownloader(dataset, target_path, urls[0])
                 return downloader.download(dry_run)
-        
+
         display_error("No suitable download method available for this dataset")
         return False
 

@@ -332,6 +332,66 @@ aria2c --continue=true [URL]
 
 4. **GitHub Issues**: https://github.com/blackpearl006/neurodatahub-cli/issues
 
+## Privacy & Telemetry
+
+NeuroDataHub CLI includes an **opt-in** telemetry and feedback system to help us understand usage patterns and improve the tool. **Your privacy is our top priority.**
+
+### What We Collect (Only if You Opt In)
+
+✅ **Anonymized usage data**:
+- Dataset download success/failure counts
+- OS platform, Python version, CLI version
+- Optional user-provided notes via `--note` flag
+
+❌ **What we DON'T collect**:
+- No IP addresses, usernames, or emails
+- No local file paths or hostnames
+- No persistent user identifiers
+- No AWS credentials or authentication tokens
+- No dataset contents
+
+### Telemetry Consent
+
+On your first successful download, you'll be prompted to enable telemetry:
+
+```bash
+neurodatahub pull HBN ./data/HBN
+
+# After download completes:
+# "Enable telemetry? [Y/n]:"
+```
+
+Choose **Y** to help us improve or **n** to disable. Your choice is saved locally.
+
+### Feedback System
+
+You can provide feedback manually at any time:
+
+```bash
+neurodatahub feedback
+# or
+neurodatahub --feedback
+```
+
+Feedback is also prompted automatically at milestones (runs 1, 3, 10, 30, 50, then every 50).
+
+### Opting Out
+
+To disable telemetry, edit `~/.neurodatahub/state.json`:
+
+```json
+{
+  "telemetry_consent_given": false,
+  "telemetry_consent_asked": true
+}
+```
+
+Or delete the file to be prompted again.
+
+### Learn More
+
+For complete privacy details, see [TELEMETRY.md](docs/TELEMETRY.md).
+
 ## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
