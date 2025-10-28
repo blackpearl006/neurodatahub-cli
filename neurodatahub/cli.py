@@ -14,6 +14,7 @@ from .datasets import dataset_manager
 from .downloader import download_manager
 from .feedback import maybe_prompt_feedback
 from .ida_flow import run_ida_workflow
+from .logging_config import close_download_logger, setup_download_logger
 from .state import get_state_manager
 from .telemetry import record_download_event
 from .utils import (
@@ -351,25 +352,37 @@ def pull(dataset_id, target_path, note, dry_run, force):
             display_info("Download cancelled")
             return
 
-    # Handle IDA-LONI datasets specially
-    if dataset.get("download_method") == "ida_loni":
-        success = run_ida_workflow(dataset, target_path, dry_run)
-    else:
-        # Check authentication if required
-        if dataset.get("auth_required", False):
-            if not auth_manager.authenticate_dataset(dataset):
-                display_error("Authentication failed")
-                return
+    # Set up per-download logger (only for actual downloads, not dry runs)
+    state_manager = get_state_manager()
+    if not dry_run:
+        log_file_path = setup_download_logger(dataset_id)
+        if log_file_path:
+            state_manager.set_current_download_log_path(log_file_path)
+            console.print(f"[dim]Logging to: {log_file_path}[/dim]")
 
-        # Download the dataset
-        success = download_manager.download_dataset(dataset, target_path, dry_run)
+    try:
+        # Handle IDA-LONI datasets specially
+        if dataset.get("download_method") == "ida_loni":
+            success = run_ida_workflow(dataset, target_path, dry_run)
+        else:
+            # Check authentication if required
+            if dataset.get("auth_required", False):
+                if not auth_manager.authenticate_dataset(dataset):
+                    display_error("Authentication failed")
+                    return
+
+            # Download the dataset
+            success = download_manager.download_dataset(dataset, target_path, dry_run)
+    finally:
+        # Close download logger after completion
+        if not dry_run:
+            close_download_logger(dataset_id)
 
     if success:
         if not dry_run:
             display_success(f"Successfully downloaded {dataset.get('name')}")
 
             # Check if this is the first successful download
-            state_manager = get_state_manager()
             is_first_success = state_manager.get_successful_runs() == 0
 
             # Prompt for telemetry consent on first successful download

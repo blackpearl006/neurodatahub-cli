@@ -43,6 +43,8 @@ class StateManager:
         "last_feedback_run_count": 0,
         "telemetry_consent_given": False,
         "telemetry_consent_asked": False,
+        "last_privacy_notice_shown": None,  # ISO timestamp, None if never shown
+        "feedback_consent_given": False,  # Implicit consent for feedback
     }
 
     def __init__(self, state_file: Optional[Path] = None):
@@ -53,6 +55,9 @@ class StateManager:
         """
         self.state_file = state_file or self._get_default_state_file()
         self._ensure_state_dir()
+
+        # In-memory only: current download log path (not persisted to state.json)
+        self._current_download_log_path: Optional[str] = None
 
     def _get_default_state_file(self) -> Path:
         """Get default state file path."""
@@ -287,6 +292,77 @@ class StateManager:
         """Reset state to default values."""
         self.save_state(copy.deepcopy(self.DEFAULT_STATE))
         logger.info("State reset to defaults")
+
+    def should_show_privacy_notice(self, days_threshold: int = 100) -> bool:
+        """Check if privacy notice should be shown based on threshold.
+
+        Args:
+            days_threshold: Number of days before re-showing notice (default: 100)
+
+        Returns:
+            True if notice should be shown, False otherwise
+        """
+        from datetime import datetime
+
+        state = self.load_state()
+        last_shown = state.get("last_privacy_notice_shown")
+
+        if last_shown is None:
+            return True
+
+        try:
+            last_shown_dt = datetime.fromisoformat(last_shown.replace("Z", "+00:00"))
+            days_since = (datetime.utcnow() - last_shown_dt.replace(tzinfo=None)).days
+            return days_since >= days_threshold
+        except (ValueError, AttributeError):
+            # Invalid timestamp, show notice
+            return True
+
+    def mark_privacy_notice_shown(self) -> None:
+        """Mark that privacy notice was shown (current timestamp)."""
+        from datetime import datetime
+
+        state = self.load_state()
+        state["last_privacy_notice_shown"] = datetime.utcnow().isoformat() + "Z"
+        self.save_state(state)
+        logger.debug("Marked privacy notice as shown")
+
+    def set_feedback_consent(self, consented: bool) -> None:
+        """Set feedback consent status (implicit consent).
+
+        Args:
+            consented: Whether user gave implicit consent for feedback
+        """
+        state = self.load_state()
+        state["feedback_consent_given"] = consented
+        self.save_state(state)
+        logger.debug(f"Feedback consent set to: {consented}")
+
+    def has_feedback_consent(self) -> bool:
+        """Check if user has given feedback consent.
+
+        Returns:
+            True if user consented, False otherwise
+        """
+        state = self.load_state()
+        return state.get("feedback_consent_given", False)
+
+    def set_current_download_log_path(self, log_path: Optional[str]) -> None:
+        """Set the current download log path (in-memory only).
+
+        Args:
+            log_path: Path to the current download log file
+        """
+        self._current_download_log_path = log_path
+        logger.debug(f"Set current download log path: {log_path}")
+
+    def get_current_download_log_path(self) -> Optional[str]:
+        """Get the current download log path (in-memory only).
+
+        Returns:
+            Path to current download log file, or None
+        """
+        return self._current_download_log_path
 
 
 # Global state manager instance

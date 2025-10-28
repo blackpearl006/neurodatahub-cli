@@ -19,6 +19,7 @@ from rich.progress import (
 )
 from tqdm import tqdm
 
+from .logging_config import get_download_logger
 from .utils import (
     check_available_space,
     check_dependency,
@@ -47,17 +48,21 @@ class BaseDownloader:
         self.target_path = Path(target_path)
         self.dataset_name = dataset.get("name", "Unknown Dataset")
         self.dataset_size = dataset.get("size", "Unknown")
+        self.dataset_id = dataset.get("id", "unknown")
 
         # Create subdirectories for organized storage
         self.anat_path = self.target_path / "anat"
         self.metadata_path = self.target_path / "metadata"
+
+        # Get download logger (will be set up by CLI)
+        self.logger = get_download_logger(self.dataset_id)
 
     def _create_folder_structure(self) -> bool:
         """Create anat/ and metadata/ subdirectories."""
         try:
             self.anat_path.mkdir(parents=True, exist_ok=True)
             self.metadata_path.mkdir(parents=True, exist_ok=True)
-            display_info(f"Created folder structure:")
+            display_info("Created folder structure:")
             display_info(f"  - {self.anat_path} (anatomical images)")
             display_info(f"  - {self.metadata_path} (dataset metadata)")
             return True
@@ -70,6 +75,7 @@ class BaseDownloader:
         if not metadata_urls:
             return True
 
+        self.logger.info(f"Starting metadata download from {len(metadata_urls)} URLs")
         display_info("Downloading metadata files...")
         success_count = 0
 
@@ -78,11 +84,13 @@ class BaseDownloader:
                 filename = url.split("/")[-1]
                 filepath = self.metadata_path / filename
 
+                self.logger.debug(f"Downloading metadata file: {filename} from {url}")
                 display_info(f"Downloading {filename}...")
                 response = requests.get(url, stream=True, timeout=30)
                 response.raise_for_status()
 
                 total_size = int(response.headers.get("content-length", 0))
+                self.logger.debug(f"Metadata file size: {total_size} bytes")
 
                 with open(filepath, "wb") as f:
                     if total_size > 0:
@@ -96,12 +104,29 @@ class BaseDownloader:
                             if chunk:
                                 f.write(chunk)
 
+                self.logger.info(f"Metadata file downloaded successfully: {filename}")
                 display_success(f"  ✓ {filename} downloaded to metadata/")
                 success_count += 1
 
+            except requests.exceptions.Timeout as e:
+                self.logger.error(f"Metadata download timeout for {url}: {e}")
+                display_warning(f"  Could not download {url.split('/')[-1]}: timeout")
+            except requests.exceptions.HTTPError as e:
+                self.logger.error(
+                    f"Metadata download HTTP error for {url}: {e.response.status_code}"
+                )
+                display_warning(
+                    f"  Could not download {url.split('/')[-1]}: HTTP {e.response.status_code}"
+                )
             except Exception as e:
+                self.logger.error(
+                    f"Metadata download failed for {url}: {type(e).__name__}: {e}"
+                )
                 display_warning(f"  Could not download {url.split('/')[-1]}: {e}")
 
+        self.logger.info(
+            f"Metadata download complete: {success_count}/{len(metadata_urls)} files succeeded"
+        )
         if success_count > 0:
             display_success(
                 f"Downloaded {success_count}/{len(metadata_urls)} metadata files"
@@ -172,6 +197,7 @@ class AwsS3Downloader(BaseDownloader):
 
     def download(self, dry_run: bool = False) -> bool:
         if not self.base_command:
+            self.logger.error("No download command configured for this dataset")
             display_error("No download command configured for this dataset")
             return False
 
@@ -179,10 +205,16 @@ class AwsS3Downloader(BaseDownloader):
         command = self.base_command.replace(" .", f' "{self.anat_path}"')
 
         if dry_run:
+            self.logger.info(f"Dry run mode - would execute: {command}")
             display_info(f"Would run: {command}")
             display_info(f"Anatomical images would be downloaded to: {self.anat_path}")
             return True
 
+        self.logger.info(
+            f"Starting AWS S3 download for {self.dataset_name} (ID: {self.dataset_id})"
+        )
+        self.logger.info(f"Target path: {self.anat_path}")
+        self.logger.debug(f"AWS command: {command}")
         display_info(f"Starting download of {self.dataset_name}")
         display_info(f"Anatomical images will be saved to: {self.anat_path}")
         display_info(f"Command: {command}")
@@ -193,20 +225,36 @@ class AwsS3Downloader(BaseDownloader):
 
         if returncode == 0:
             elapsed = time.time() - start_time
+            self.logger.info(
+                f"AWS S3 download completed successfully in {elapsed:.1f} seconds"
+            )
             display_success(f"Download completed in {elapsed:.1f} seconds")
 
             # Download metadata if specified (e.g., for NKI, other INDI datasets)
             metadata_urls = self.dataset.get("metadata_urls", [])
             if metadata_urls:
-                self._download_metadata_from_urls(metadata_urls)
+                self.logger.info("Attempting to download metadata from URLs")
+                metadata_success = self._download_metadata_from_urls(metadata_urls)
+                self.logger.info(
+                    f"Metadata download from URLs: {'succeeded' if metadata_success else 'failed'}"
+                )
 
             # Download OpenNeuro BIDS metadata using metadata_command
             metadata_command = self.dataset.get("metadata_command")
             if metadata_command:
-                self._download_metadata_with_command(metadata_command)
+                self.logger.info("Attempting to download BIDS metadata")
+                metadata_success = self._download_metadata_with_command(
+                    metadata_command
+                )
+                self.logger.info(
+                    f"BIDS metadata download: {'succeeded' if metadata_success else 'failed'}"
+                )
 
             return True
         else:
+            self.logger.error(f"AWS S3 download failed with exit code {returncode}")
+            if stderr:
+                self.logger.error(f"Error output: {stderr}")
             display_error(f"Download failed with exit code {returncode}")
             if stderr:
                 console.print(f"[red]Error output:[/red] {stderr}")
@@ -214,6 +262,7 @@ class AwsS3Downloader(BaseDownloader):
 
     def _download_metadata_with_command(self, metadata_command: str) -> bool:
         """Download metadata files using AWS command (for OpenNeuro BIDS datasets)."""
+        self.logger.info("Starting BIDS metadata download via AWS command")
         display_info("Downloading BIDS metadata files...")
 
         # Replace the destination path to download to metadata/ folder
@@ -221,14 +270,21 @@ class AwsS3Downloader(BaseDownloader):
         # We need to replace the '.' with our metadata_path
         command = metadata_command.replace(" . ", f' "{self.metadata_path}" ')
 
-        display_info(f"Fetching .tsv and .json files from OpenNeuro...")
+        self.logger.debug(f"BIDS metadata command: {command}")
+        display_info("Fetching .tsv and .json files from OpenNeuro...")
 
         returncode, stdout, stderr = run_command(command, capture_output=False)
 
         if returncode == 0:
+            self.logger.info("BIDS metadata files downloaded successfully")
             display_success("✓ BIDS metadata files downloaded to metadata/")
             return True
         else:
+            self.logger.warning(
+                f"BIDS metadata download failed with exit code {returncode}"
+            )
+            if stderr:
+                self.logger.debug(f"BIDS metadata error output: {stderr}")
             display_warning(
                 "Could not download some metadata files (this is normal if they don't exist)"
             )

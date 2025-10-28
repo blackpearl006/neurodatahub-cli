@@ -205,3 +205,104 @@ def log_download_progress(
 
 # Import time module for PerformanceTimer
 import time
+
+
+def setup_download_logger(dataset_id: str, log_dir: Optional[Path] = None) -> str:
+    """Set up a per-download logger for tracking individual download sessions.
+
+    Args:
+        dataset_id: Dataset identifier for naming the log file
+        log_dir: Directory for log files. If None, uses ~/.neurodatahub/logs/
+
+    Returns:
+        Path to the download log file (as string)
+    """
+    from datetime import datetime
+
+    # Set up log directory
+    if log_dir is None:
+        log_dir = Path.home() / ".neurodatahub" / "logs"
+
+    try:
+        log_dir.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        logger = get_logger("download_logger")
+        logger.warning(f"Could not create download log directory: {e}")
+        return None
+
+    # Generate log file name with dataset ID and timestamp
+    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    log_file = log_dir / f"{dataset_id}_{timestamp}.log"
+
+    # Create a dedicated logger for this download
+    download_logger = logging.getLogger(f"neurodatahub.download.{dataset_id}")
+    download_logger.setLevel(logging.DEBUG)
+
+    # Clear any existing handlers
+    download_logger.handlers.clear()
+
+    # Create file handler for per-download logging
+    try:
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setLevel(logging.DEBUG)
+
+        # Detailed format for download logs
+        log_format = (
+            "%(asctime)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
+        )
+        file_formatter = logging.Formatter(log_format)
+        file_handler.setFormatter(file_formatter)
+
+        download_logger.addHandler(file_handler)
+
+        # Also add to root logger so download events appear in global log
+        root_logger = logging.getLogger("neurodatahub")
+        root_logger.addHandler(file_handler)
+
+        download_logger.info(f"=== Download session started for {dataset_id} ===")
+        download_logger.info(f"Log file: {log_file}")
+
+        return str(log_file)
+
+    except (IOError, PermissionError) as e:
+        logger = get_logger("download_logger")
+        logger.warning(f"Could not set up download logger: {e}")
+        return None
+
+
+def close_download_logger(dataset_id: str) -> None:
+    """Close and clean up a per-download logger.
+
+    Args:
+        dataset_id: Dataset identifier for the logger to close
+    """
+    download_logger = logging.getLogger(f"neurodatahub.download.{dataset_id}")
+
+    try:
+        download_logger.info(f"=== Download session ended for {dataset_id} ===")
+
+        # Close and remove all handlers
+        for handler in download_logger.handlers[:]:
+            handler.close()
+            download_logger.removeHandler(handler)
+
+            # Also remove from root logger
+            root_logger = logging.getLogger("neurodatahub")
+            if handler in root_logger.handlers:
+                root_logger.removeHandler(handler)
+
+    except Exception as e:
+        logger = get_logger("download_logger")
+        logger.warning(f"Error closing download logger: {e}")
+
+
+def get_download_logger(dataset_id: str) -> logging.Logger:
+    """Get the logger for a specific download session.
+
+    Args:
+        dataset_id: Dataset identifier
+
+    Returns:
+        Logger instance for the download session
+    """
+    return logging.getLogger(f"neurodatahub.download.{dataset_id}")

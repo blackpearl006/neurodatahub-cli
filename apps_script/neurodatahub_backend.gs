@@ -50,10 +50,11 @@ function doPost(e) {
     }
 
     // Validate payload
-    if (!payload.type || (payload.type !== 'download' && payload.type !== 'feedback')) {
+    const validTypes = ['download', 'feedback', 'feedback_log_followup'];
+    if (!payload.type || !validTypes.includes(payload.type)) {
       return createJsonResponse(400, {
         status: 'error',
-        reason: 'Invalid event type. Must be "download" or "feedback".'
+        reason: 'Invalid event type. Must be "download", "feedback", or "feedback_log_followup".'
       });
     }
 
@@ -76,7 +77,7 @@ function doPost(e) {
       // Update data based on event type
       if (payload.type === 'download') {
         updateDownloadEvent(data, payload);
-      } else if (payload.type === 'feedback') {
+      } else if (payload.type === 'feedback' || payload.type === 'feedback_log_followup') {
         updateFeedbackEvent(data, payload);
       }
 
@@ -173,14 +174,46 @@ function updateDownloadEvent(data, payload) {
 function updateFeedbackEvent(data, payload) {
   // Initialize feedback counts if not exists
   if (!data.counts.feedback_count) {
-    data.counts.feedback_count = { short: 0, comprehensive: 0 };
+    data.counts.feedback_count = {
+      quick: 0,
+      detailed: 0,
+      // Legacy compatibility
+      short: 0,
+      comprehensive: 0,
+      // Rating breakdown
+      by_rating: {},
+      // Log followups
+      with_logs: 0
+    };
   }
 
-  const level = payload.feedback_level || 'short';
-  if (level === 'short') {
-    data.counts.feedback_count.short += 1;
-  } else if (level === 'comprehensive') {
-    data.counts.feedback_count.comprehensive += 1;
+  // Handle feedback_log_followup separately
+  if (payload.type === 'feedback_log_followup') {
+    data.counts.feedback_count.with_logs += 1;
+  } else {
+    // Handle regular feedback
+    const level = payload.feedback_level || 'quick';
+
+    // New format: quick/detailed
+    if (level === 'quick') {
+      data.counts.feedback_count.quick += 1;
+    } else if (level === 'detailed') {
+      data.counts.feedback_count.detailed += 1;
+    }
+
+    // Legacy format: short/comprehensive (for backwards compatibility)
+    if (level === 'short') {
+      data.counts.feedback_count.short += 1;
+    } else if (level === 'comprehensive') {
+      data.counts.feedback_count.comprehensive += 1;
+    }
+
+    // Track ratings
+    const rating = payload.feedback_rating || 'unknown';
+    if (!data.counts.feedback_count.by_rating[rating]) {
+      data.counts.feedback_count.by_rating[rating] = 0;
+    }
+    data.counts.feedback_count.by_rating[rating] += 1;
   }
 
   // Update last_updated timestamp
@@ -237,7 +270,14 @@ function getDefaultTelemetryData() {
       total_successful_runs: 0,
       total_failed_runs: 0,
       per_dataset: {},
-      feedback_count: { short: 0, comprehensive: 0 }
+      feedback_count: {
+        quick: 0,
+        detailed: 0,
+        short: 0,  // Legacy
+        comprehensive: 0,  // Legacy
+        by_rating: {},
+        with_logs: 0
+      }
     },
     events: [],
     created_at: new Date().toISOString(),
@@ -303,8 +343,9 @@ function exportToSheet() {
   // Headers
   const headers = [
     'Timestamp', 'Type', 'Dataset', 'Succeeded', 'Metadata Received',
-    'Resume Attempts', 'Feedback Level', 'Feedback Text', 'Research Experience',
-    'Institution', 'OS', 'Python', 'CLI Version', 'Session ID'
+    'Resume Attempts', 'Feedback Level', 'Feedback Rating', 'Career Stage',
+    'Experience Years', 'Research Area', 'Use Case', 'Institution',
+    'GitHub Link', 'Log Analysis Summary', 'OS', 'Python', 'CLI Version', 'Session ID'
   ];
   eventsSheet.appendRow(headers);
 
@@ -318,9 +359,14 @@ function exportToSheet() {
       event.metadata_received !== undefined ? event.metadata_received.toString() : '',
       event.resume_attempts || '',
       event.feedback_level || '',
-      event.feedback_text || '',
-      event.research_experience || '',
+      event.feedback_rating || '',
+      event.career_stage || '',
+      event.experience_years || '',
+      event.research_area || '',
+      event.use_case || '',
       event.institution || '',
+      event.github_link || '',
+      event.log_analysis ? JSON.stringify(event.log_analysis.summary || event.log_analysis) : '',
       event.os || '',
       event.python || '',
       event.cli_version || '',
@@ -337,9 +383,21 @@ function exportToSheet() {
   summarySheet.appendRow(['Total Successful Runs', data.counts.total_successful_runs]);
   summarySheet.appendRow(['Total Failed Runs', data.counts.total_failed_runs]);
   summarySheet.appendRow(['Total Events', data.events.length]);
-  summarySheet.appendRow(['Short Feedback Count', data.counts.feedback_count.short]);
-  summarySheet.appendRow(['Comprehensive Feedback Count', data.counts.feedback_count.comprehensive]);
+  summarySheet.appendRow(['Quick Feedback Count', data.counts.feedback_count.quick || 0]);
+  summarySheet.appendRow(['Detailed Feedback Count', data.counts.feedback_count.detailed || 0]);
+  summarySheet.appendRow(['Feedback with Logs', data.counts.feedback_count.with_logs || 0]);
+  summarySheet.appendRow(['Short Feedback (Legacy)', data.counts.feedback_count.short || 0]);
+  summarySheet.appendRow(['Comprehensive Feedback (Legacy)', data.counts.feedback_count.comprehensive || 0]);
   summarySheet.appendRow(['Last Updated', data.last_updated || 'N/A']);
+
+  // Add rating breakdown
+  if (data.counts.feedback_count.by_rating) {
+    summarySheet.appendRow(['', '']);
+    summarySheet.appendRow(['Rating Breakdown', '']);
+    Object.keys(data.counts.feedback_count.by_rating).forEach(rating => {
+      summarySheet.appendRow([rating, data.counts.feedback_count.by_rating[rating]]);
+    });
+  }
 
   Logger.log('Export to Sheet completed: ' + spreadsheet.getUrl());
   return spreadsheet.getUrl();
