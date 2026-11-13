@@ -3,3 +3,8 @@
 build/
 dist/
 *.egg-info/
+
+# Generated files
+.coverage
+.Rhistory
+.DS_Store
